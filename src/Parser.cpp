@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Wed Feb 12 18:27:13 2014 jonathan.collinet
+// Last update Wed Feb 12 23:18:00 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -14,6 +14,21 @@ Parser::Parser()
 {
 }
 
+ParserException::ParserException(std::string message) throw()
+{
+  _message = message;
+}
+
+ParserException::~ParserException() throw()
+{
+}
+
+const char*	ParserException::what() const throw()
+{
+  return (_message.c_str());
+}
+
+// get last pos of c only while is it
 int		Parser::getFirstPos_of(std::string str, char c) const
 {
   int		i = -1;
@@ -23,14 +38,25 @@ int		Parser::getFirstPos_of(std::string str, char c) const
   return (i);
 }
 
-bool		Parser::isKey(const std::string &str) const
+// init k to the keyword, return true if keyword_line is in key array
+bool		Parser::isKey(const std::string &str, std::string &k)
 {
-  std::string	key[] = {";", "push", "pop", "dump", "assert", "add","sub", "mul", "div", "mod", "print", "exit", ""};
+  std::string	mk = "";
+  std::string	key[] = {";", "push", "pop", "dump", "assert",
+			 "add","sub", "mul", "div", "mod", "print", "exit", ""};
    int		i = -1;
 
+   mk = str.substr(0, str.find(" "));
+   if (mk.empty())
+     mk = str.substr(0, str.find("\n"));
+   if (mk.empty())
+     return (false);
    while (key[++i] != "")
-     if (key[i] == str)
-       return (true);
+     if (key[i] == mk)
+       {
+	 k = mk;
+	 return (true);
+       }
    return (false);
 }
 
@@ -44,35 +70,36 @@ void				Parser::setMap(const std::map<std::string, std::string> &map)
   _map = map;
 }
 
+// not finished
 void			Parser::parse(const char *file)
 {
   if (file)
     {
       std::ifstream	my_file(file);
+      std::string	key = "";
 
       if (my_file.is_open())
 	{
 	  std::string	line = "";
-	  std::string	key = "";
 
 	  while (getline(my_file, line))
 	    {
-	      line = line.erase(0, getFirstPos_of(line, ' '));
-	      if (line[0] != ';')
+	      if (line[0] != ';' && line != "")
 		{
-		  key = line.substr(0, line.find(" "));
-		  if (key.empty())
-		    key = key.substr(0, key.find("\n"));
-		  if (isKey(key))
-		    std::cout << "good stuff motherfucker !" << std::endl;
+		  if (isKey(line, key))
+		    {
+		      std::cout << "olol" << std::endl;
+		    }
 		  else
-		    std::cout << "Your \"" << key << "\" is bad fucking motherfucker's fucker you are. Bitch." << std::endl;
+		    {
+		      throw new ParserException(std::string("Error : " + key + " is not a valid keyword."));
+		    }
 		}
 	    }
 	  my_file.close();
 	}
       else
-	std::cout << "Error : File isn't openable." << std::endl;
+	throw new ParserException(std::string("Error : cannot open the file : \"") + file + "\".");
     }
 }
 
