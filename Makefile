@@ -5,21 +5,23 @@
 ## Login   <moriss_h@epitech.net>
 ##
 ## Started on  Sun Jun  9 03:35:24 2013 Hugues
-## Last update Wed Feb 12 11:31:31 2014 jonathan.collinet
+## Last update Wed Feb 12 17:50:28 2014 jonathan.collinet
 ##
 
 SRC		=	main.cpp \
+			Abstract.cpp \
+			Parser.cpp \
 
-CC		=	gcc
+CC		=	g++
 
 RM		=	rm -f
 
-NAME		=	abstract
+NAME		=	avm
 
 OBJDIR		=	obj/
 SRCDIR		=	src/
 
-CFLAGS		+=	-g -Wall -Wextra
+CFLAGS		+=	-Wall -Wextra
 
 OBJ		=	$(patsubst %.cpp,${OBJDIR}%.o, $(SRC))
 
@@ -28,7 +30,7 @@ dummy		:=	$(shell test -d $(SRCDIR) || mkdir -p $(SRCDIR))
 
 $(OBJDIR)%.o:		$(patsubst %.cpp,${SRCDIR}%.cpp, %.cpp)
 			@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-			@echo -e "C3PO says : Compiling $< --{ $(CFLAGS) }--"
+			@echo "C3PO says : Compiling $< --{ $(CFLAGS) }--"
 			@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJ)
@@ -37,11 +39,11 @@ $(NAME):		$(OBJ)
 all:			$(NAME)
 
 clean:
-			@echo -e "C3PO says : Removing object ... my god i need an oil bath !"
+			@echo "C3PO says : Removing object ... my god i need an oil bath !"
 			@$(RM) $(OBJ)
 
 fclean:			clean
-			@echo -e "C3PO says : I Remove ${NAME}, need a new program for my little head !"
+			@echo "C3PO says : I Remove ${NAME}, need a new program for my little head !"
 			@$(RM) $(NAME)
 
 re:			fclean all
