@@ -5,7 +5,7 @@
 ## Login   <moriss_h@epitech.net>
 ##
 ## Started on  Sun Jun  9 03:35:24 2013 Hugues
-## Last update Wed Feb 12 11:22:01 2014 jonathan.collinet
+## Last update Wed Feb 12 11:31:31 2014 jonathan.collinet
 ##
 
 SRC		=	main.cpp \
@@ -41,7 +41,7 @@ clean:
 			@$(RM) $(OBJ)
 
 fclean:			clean
-			@echo -e "C3PO says : I Remove ${NAME}, need a new program !"
+			@echo -e "C3PO says : I Remove ${NAME}, need a new program for my little head !"
 			@$(RM) $(NAME)
 
 re:			fclean all
