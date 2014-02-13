@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Thu Feb 13 22:35:08 2014 jonathan.collinet
+// Last update Thu Feb 13 22:39:58 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -55,7 +55,6 @@ void		Parser::parseInstrWithArg(std::string &str, size_t pos, const std::string 
 
 void		Parser::isKey(std::string &str)
 {
-  std::string	mk = "";
   std::string	key_instr[] = {"pop", "dump", "add","sub", "mul",
 			 "div", "mod", "print", "exit", ""};
   std::string	key_arg_instr[] = {"push", "assert", ""};
@@ -72,7 +71,6 @@ void		Parser::isKey(std::string &str)
    while (key_instr[++i] != "")
      if ((pos = str.find(key_instr[i])) != std::string::npos)
        {
-	 // here going to be the place for next...
 	 std::cout << "Just want to \"" << key_instr[i] << "\"." << std::endl;
 	 if (key_instr[i] == "exit")
 	   throw new Exception(std::string("Programm Exited."));
@@ -81,20 +79,29 @@ void		Parser::isKey(std::string &str)
    throw new Exception(std::string("Error : " + str + " is not a valid keyword."));
 }
 
-void			Parser::parse_and_push(/* Memory m, */ const char *file)
+void			Parser::parseFile(const char *file)
+{
+  std::ifstream	my_file(file);
+  if (my_file.is_open())
+    {
+      std::string	line = "";
+      while (getline(my_file, line))
+	if (line[0] != ';' && line != "")
+	  isKey(line);
+      my_file.close();
+    }
+  else
+    throw new Exception(std::string("Error : cannot open the file : \"") + file + "\".");
+}
+
+void			Parser::parseIn()
+{
+}
+
+void			Parser::parseAndPush(/* Memory m, */ const char *file)
 {
   if (file)
-    {
-      std::ifstream	my_file(file);
-      if (my_file.is_open())
-	{
-	  std::string	line = "";
-	  while (getline(my_file, line))
-	    if (line[0] != ';' && line != "")
-	      isKey(line);
-	  my_file.close();
-	}
-      else
-	throw new Exception(std::string("Error : cannot open the file : \"") + file + "\".");
-    }
+    parseFile(file);
+  else
+    parseIn();
 }
