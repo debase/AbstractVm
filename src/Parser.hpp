@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:14:47 2014 jonathan.collinet
-// Last update Thu Feb 13 15:22:58 2014 jonathan.collinet
+// Last update Thu Feb 13 22:03:27 2014 jonathan.collinet
 //
 
 #ifndef PARSER_HPP_
@@ -28,7 +28,12 @@ public:
 
   void				setMap(const std::map<std::string, std::string> &);
   void				parse_and_push(const char *);
-  bool				isKey(std::string &, std::string &);
+  void				isKey(std::string &);
+  void				parseInstrWithArg(std::string &str, size_t pos,
+						  const std::string &key_arg_instr);
+  void				getInnerBrackets(size_t pos, std::string &str,
+						 const std::string &key_arg_instr,
+						 const std::string &key_arg_value);
   int				getFirstPos_of(std::string &, const char) const;
 
 private:
