@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Thu Feb 13 22:56:30 2014 jonathan.collinet
+// Last update Thu Feb 13 23:30:15 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -45,6 +45,7 @@ void		Parser::parseInstrWithArg(std::string &str, size_t pos,
   int		j = -1;
 
   str = str.erase(0, (pos + key_arg_instr.size()));
+  std::cout << str << std::endl;
   if (str.find(" ") == std::string::npos)
     throw new Exception(std::string("Error : wrong separator. Must be \" \" (space)."));
   while (key_arg_value[++j] != "")
@@ -108,7 +109,7 @@ void			Parser::parseIn()
 
   while (1)
     {
-      std::cin >> line;
+      getline(std::cin, line, '\n');
       if (line != ";;")
 	checkLine(line);
       else
