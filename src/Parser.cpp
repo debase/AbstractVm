@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Thu Feb 13 23:30:15 2014 jonathan.collinet
+// Last update Thu Feb 13 23:45:34 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -54,7 +54,7 @@ void		Parser::parseInstrWithArg(std::string &str, size_t pos,
 	getInnerBrackets(pos, str, key_arg_instr, key_arg_value[j]);
 	return ;
       }
-  throw new Exception(std::string("Error : \"" + key_arg_instr + "\" must have a valid argument, not like \"" + key_arg_value[j] + "\""));
+  throw new Exception(std::string("Error : \"" + key_arg_instr + "\" must have a valid argument, not like \"" + str + "\""));
 }
 
 void		Parser::isKey(std::string &str)
@@ -105,15 +105,21 @@ void			Parser::parseFile(const char *file)
 
 void			Parser::parseIn()
 {
+  std::string		all = "";
   std::string		line = "";
+  size_t		pos = 0;
 
-  while (1)
+  while (line != ";;")
     {
       getline(std::cin, line, '\n');
-      if (line != ";;")
-	checkLine(line);
-      else
-	throw new Exception(std::string("Programm Exited."));
+      all += line + "\n";
+    }
+  while (all != "")
+    {
+      pos = all.find_first_of("\n");
+      line = all.substr(0, pos);
+      checkLine(line);
+      all = all.erase(0, pos);
     }
 }
 
