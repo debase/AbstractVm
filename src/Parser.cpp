@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Thu Feb 13 16:00:44 2014 jonathan.collinet
+// Last update Thu Feb 13 18:14:59 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -62,6 +62,10 @@ bool		Parser::isKey(std::string &str, std::string &k)
        {
 	 k = key_instr[i];
 	 std::cout << "Just want to \"" << k << "\"." << std::endl;
+	 if (key_instr[i] == "exit")
+	   {
+	     throw new Exception(std::string("Programm Exited."));
+	   }
 	 return (true);
        }
    k = str;
