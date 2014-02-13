@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:07:17 2014 jonathan.collinet
-// Last update Wed Feb 12 17:45:13 2014 jonathan.collinet
+// Last update Thu Feb 13 15:33:59 2014 jonathan.collinet
 //
 
 #ifndef ABSTRACT_HPP_

@@ -1,16 +1,17 @@
 ##
-## Makefile for Makefile in /home/Epitech
-##
-## Made by moriss_h
-## Login   <moriss_h@epitech.net>
-##
-## Started on  Sun Jun  9 03:35:24 2013 Hugues
-## Last update Wed Feb 12 17:50:28 2014 jonathan.collinet
+## Makefile for make in /home/collin_b/project/abstract_vm/abstract_VM
+## 
+## Made by jonathan.collinet
+## Login   <collin_b@epitech.net>
+## 
+## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
+## Last update Thu Feb 13 13:35:12 2014 jonathan.collinet
 ##
 
 SRC		=	main.cpp \
 			Abstract.cpp \
 			Parser.cpp \
+			Exception.cpp \
 
 CC		=	g++
 
@@ -21,7 +22,7 @@ NAME		=	avm
 OBJDIR		=	obj/
 SRCDIR		=	src/
 
-CFLAGS		+=	-Wall -Wextra
+CFLAGS		+=	-g -Wall -Wextra
 
 OBJ		=	$(patsubst %.cpp,${OBJDIR}%.o, $(SRC))
 
