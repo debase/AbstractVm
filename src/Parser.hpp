@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:14:47 2014 jonathan.collinet
-// Last update Thu Feb 13 22:42:06 2014 jonathan.collinet
+// Last update Thu Feb 13 22:55:25 2014 jonathan.collinet
 //
 
 #ifndef PARSER_HPP_
@@ -27,6 +27,7 @@ public:
   std::map<std::string,
 	   std::string>		getMap() const;
 
+  void				checkLine(std::string &line);
   void				parseAndPush(/* Memory m, */ const char *);
   void				parseFile(const char *file);
   void				parseIn();

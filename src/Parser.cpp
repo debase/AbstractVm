@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Thu Feb 13 22:39:58 2014 jonathan.collinet
+// Last update Thu Feb 13 22:56:30 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -24,7 +24,9 @@ int		Parser::getFirstPos_of(std::string &str, const char c) const
   return (i);
 }
 
-void		Parser::getInnerBrackets(size_t pos, std::string &str, const std::string &key_arg_instr,  const std::string &key_arg_value)
+void		Parser::getInnerBrackets(size_t pos, std::string &str, 
+					 const std::string &key_arg_instr,  
+					 const std::string &key_arg_value)
 {
   str = str.substr(pos, str.size());
   if ((pos = str.find(")")) != std::string::npos)
@@ -36,7 +38,8 @@ void		Parser::getInnerBrackets(size_t pos, std::string &str, const std::string &
   throw new Exception(std::string("Error : brackets not closed. Re-Read your syntax."));
 }
 
-void		Parser::parseInstrWithArg(std::string &str, size_t pos, const std::string &key_arg_instr)
+void		Parser::parseInstrWithArg(std::string &str, size_t pos, 
+					  const std::string &key_arg_instr)
 {
   std::string	key_arg_value[] = {"int8(", "int16(", "int32(", "float(", "double(", "" };
   int		j = -1;
@@ -79,6 +82,12 @@ void		Parser::isKey(std::string &str)
    throw new Exception(std::string("Error : " + str + " is not a valid keyword."));
 }
 
+void			Parser::checkLine(std::string &line)
+{
+  if (line[0] != ';' && line != "")
+    isKey(line);
+}
+
 void			Parser::parseFile(const char *file)
 {
   std::ifstream	my_file(file);
@@ -86,8 +95,7 @@ void			Parser::parseFile(const char *file)
     {
       std::string	line = "";
       while (getline(my_file, line))
-	if (line[0] != ';' && line != "")
-	  isKey(line);
+	checkLine(line);
       my_file.close();
     }
   else
@@ -96,6 +104,16 @@ void			Parser::parseFile(const char *file)
 
 void			Parser::parseIn()
 {
+  std::string		line = "";
+
+  while (1)
+    {
+      std::cin >> line;
+      if (line != ";;")
+	checkLine(line);
+      else
+	throw new Exception(std::string("Programm Exited."));
+    }
 }
 
 void			Parser::parseAndPush(/* Memory m, */ const char *file)
