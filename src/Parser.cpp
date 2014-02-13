@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Thu Feb 13 22:08:24 2014 jonathan.collinet
+// Last update Thu Feb 13 22:35:08 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -81,7 +81,7 @@ void		Parser::isKey(std::string &str)
    throw new Exception(std::string("Error : " + str + " is not a valid keyword."));
 }
 
-void			Parser::parse_and_push(const char *file)
+void			Parser::parse_and_push(/* Memory m, */ const char *file)
 {
   if (file)
     {
@@ -91,14 +91,7 @@ void			Parser::parse_and_push(const char *file)
 	  std::string	line = "";
 	  while (getline(my_file, line))
 	    if (line[0] != ';' && line != "")
-	      try
-		{
-		  isKey(line);
-		}
-	      catch (Exception *p)
-		{
-		  std::cerr << p->what() << std::endl;
-		}
+	      isKey(line);
 	  my_file.close();
 	}
       else

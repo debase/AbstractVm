@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Tue Feb 11 23:37:50 2014 DEBAS
-// Last update Thu Feb 13 15:49:37 2014 jonathan.collinet
+// Last update Thu Feb 13 22:24:01 2014 jonathan.collinet
 */
 
 #include "Abstract.hpp"
@@ -22,15 +22,13 @@ int	main(int ac, char *av[])
   if (ac > 2)
     usage();
   else
-    {
-      try 
-	{
-	  a.getParser().parse_and_push(av[1]);
-	}
-      catch (Exception *p)
-	{
-	  std::cerr << p->what() << std::endl;
-	}
-    }
+    try 
+      {
+	a.getParser().parse_and_push(av[1]);
+      }
+    catch (Exception *p)
+      {
+	std::cerr << p->what() << std::endl;
+      }
   return (0);
 }
