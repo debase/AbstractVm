@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:14:47 2014 jonathan.collinet
-// Last update Thu Feb 13 22:39:16 2014 jonathan.collinet
+// Last update Thu Feb 13 22:42:06 2014 jonathan.collinet
 //
 
 #ifndef PARSER_HPP_
@@ -29,6 +29,7 @@ public:
 
   void				parseAndPush(/* Memory m, */ const char *);
   void				parseFile(const char *file);
+  void				parseIn();
   void				isKey(std::string &);
   void				parseInstrWithArg(std::string &str, size_t pos,
 						  const std::string &key_arg_instr);

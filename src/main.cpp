@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Tue Feb 11 23:37:50 2014 DEBAS
-// Last update Thu Feb 13 22:24:01 2014 jonathan.collinet
+// Last update Thu Feb 13 22:41:44 2014 jonathan.collinet
 */
 
 #include "Abstract.hpp"
@@ -24,7 +24,7 @@ int	main(int ac, char *av[])
   else
     try 
       {
-	a.getParser().parse_and_push(av[1]);
+	a.getParser().parseAndPush(av[1]);
       }
     catch (Exception *p)
       {
