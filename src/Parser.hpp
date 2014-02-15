@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:14:47 2014 jonathan.collinet
-// Last update Thu Feb 13 22:55:25 2014 jonathan.collinet
+// Last update Sat Feb 15 11:31:08 2014 jonathan.collinet
 //
 
 #ifndef PARSER_HPP_
@@ -27,6 +27,8 @@ public:
   std::map<std::string,
 	   std::string>		getMap() const;
 
+  bool				isNumber(const char &c);
+  void				isValidNumber(const std::string &str, const short &type);
   void				checkLine(std::string &line);
   void				parseAndPush(/* Memory m, */ const char *);
   void				parseFile(const char *file);
@@ -36,7 +38,8 @@ public:
 						  const std::string &key_arg_instr);
   void				getInnerBrackets(size_t pos, std::string &str,
 						 const std::string &key_arg_instr,
-						 const std::string &key_arg_value);
+						 const std::string &key_arg_value,
+						 const short &type);
   int				getFirstPos_of(std::string &, const char) const;
 
 };
