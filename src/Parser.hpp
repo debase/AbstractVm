@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:14:47 2014 jonathan.collinet
-// Last update Sat Feb 15 11:31:08 2014 jonathan.collinet
+// Last update Sun Feb 16 13:27:21 2014 jonathan.collinet
 //
 
 #ifndef PARSER_HPP_
@@ -40,7 +40,7 @@ public:
 						 const std::string &key_arg_instr,
 						 const std::string &key_arg_value,
 						 const short &type);
-  int				getFirstPos_of(std::string &, const char) const;
+  int				getLastFirstPos_of(std::string &, const char) const;
 
 };
 

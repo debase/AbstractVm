@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Sat Feb 15 15:46:45 2014 jonathan.collinet
+// Last update Sun Feb 16 13:28:52 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -53,7 +53,7 @@ void		Parser::isValidNumber(const std::string &str, const short &type)
 }
 
 // get last pos of c only while is it
-int		Parser::getFirstPos_of(std::string &str, const char c) const
+int		Parser::getLastFirstPos_of(std::string &str, const char c) const
 {
   int		i = -1;
   std::string	n = "";
@@ -75,7 +75,6 @@ void		Parser::getInnerBrackets(size_t pos, std::string &str,
       str = str.substr(key_arg_value.size(), pos - 1);
       nbr = str.substr(0, str.size() - 1);
       isValidNumber(nbr, type);
-
       std::cout << "Cool, i want to \""+ key_arg_instr + "\" the type \"" 
 	+ key_arg_value.substr(0, key_arg_value.size() - 1) + "\" with number : \"" 
 		<< nbr << "\"." << std::endl;
@@ -104,8 +103,7 @@ void		Parser::parseInstrWithArg(std::string &str, size_t pos,
 
 void		Parser::isKey(std::string &str)
 {
-  std::string	key_instr[] = {"pop", "dump", "add","sub", "mul",
-			 "div", "mod", "print", "exit", ""};
+  std::string	key_instr[] = {"pop", "dump", "add","sub", "mul", "div", "mod", "print", "exit", ""};
   std::string	key_arg_instr[] = {"push", "assert", ""};
   size_t	pos = 0;
   int		i = -1;
@@ -162,9 +160,10 @@ void			Parser::parseIn()
     }
   while (all != "")
     {
-      pos = all.find_first_of("\n");
       if (all[0] == '\n' && all[1] == '\0')
 	break;
+      all = all.erase(0, getLastFirstPos_of(all, '\n'));
+      pos = all.find_first_of("\n");
       line = all.substr(0, pos);
       checkLine(line);
       all = all.erase(0, pos);
