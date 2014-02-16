@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Sun Feb 16 14:29:01 2014 jonathan.collinet
+// Last update Sun Feb 16 14:46:56 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -104,7 +104,7 @@ void		Parser::parseInstrWithArg(std::string &str, size_t pos,
 
 bool		Parser::isKey(std::string &str, int nbline)
 {
-  std::string	key_instr[] = {"pop", "dump", "add","sub", "mul", "div", "mod", "print", "exit", ""};
+  std::string	key_instr[] = {"pop", "dump", "add", "sub", "mul", "div", "mod", "print", "exit", ""};
   std::string	key_arg_instr[] = {"push", "assert", ""};
   size_t	pos = 0;
   int		i = -1;
