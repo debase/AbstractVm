@@ -5,13 +5,16 @@
 ## Login   <collin_b@epitech.net>
 ## 
 ## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
-## Last update Thu Feb 13 13:35:12 2014 jonathan.collinet
+## Last update Sat Feb 15 20:27:18 2014 DEBAS
 ##
 
 SRC		=	main.cpp \
 			Abstract.cpp \
 			Parser.cpp \
 			Exception.cpp \
+			Memory.cpp \
+			Instruction.cpp \
+			OperandFactory.cpp \
 
 CC		=	g++
 

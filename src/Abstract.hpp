@@ -1,12 +1,12 @@
-//
-// abstract.hpp for header in /home/collin_b/project/abstract_vm/abstract_VM/src
-// 
-// Made by jonathan.collinet
-// Login   <collin_b@epitech.net>
-// 
-// Started on  Wed Feb 12 16:07:17 2014 jonathan.collinet
-// Last update Thu Feb 13 15:33:59 2014 jonathan.collinet
-//
+/*
+** Abstract.hpp for abstract in /home/debas_e_elementary/Project/abstract_VM/src
+**
+** Made by DEBAS
+** Login   <debas_e_elementary@epitech.net>
+**
+** Started on  Sat Feb 15 22:09:47 2014 DEBAS
+** Last update Sat Feb 15 22:09:48 2014 DEBAS
+*/
 
 #ifndef ABSTRACT_HPP_
 # define ABSTRACT_HPP_
@@ -20,7 +20,6 @@ public:
   ~Abstract() {}
 
   Parser	getParser() const;
-
 private:
   Parser	_p;
 };
