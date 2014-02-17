@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Thu Feb 13 13:24:19 2014 jonathan.collinet
-// Last update Thu Feb 13 13:31:41 2014 jonathan.collinet
+// Last update Sun Feb 16 14:22:42 2014 jonathan.collinet
 //
 
 #ifndef EXCEPTION_HPP_
@@ -18,11 +18,14 @@
 class				Exception : public std::exception
 {
 public:
-  Exception(std::string message) throw();
+  Exception(const std::string &, const int &) throw();
   virtual ~Exception() throw();
   virtual const char*		what() const throw();
+  virtual int			where() const throw();
+
 private:
   std::string			_message;
+  int				_line;
 };
 
 #endif

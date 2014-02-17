@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Tue Feb 11 23:37:50 2014 DEBAS
-// Last update Thu Feb 13 22:41:44 2014 jonathan.collinet
+// Last update Sun Feb 16 14:38:29 2014 jonathan.collinet
 */
 
 #include "Abstract.hpp"
@@ -28,7 +28,8 @@ int	main(int ac, char *av[])
       }
     catch (Exception *p)
       {
-	std::cerr << p->what() << std::endl;
+	std::cerr << "Error : line " << p->where() << " : " << p->what() << std::endl;
+	delete p;
       }
   return (0);
 }
