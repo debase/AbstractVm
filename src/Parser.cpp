@@ -1,20 +1,42 @@
 //
-// Parser.cpp for cpp in /home/collin_b/project/abstract_vm/abstract_VM/src
+// Parser2.cpp for cpp in /home/collin_b/project/abstract_vm/abstract_VM
 // 
 // Made by jonathan.collinet
 // Login   <collin_b@epitech.net>
 // 
-// Started on  Wed Feb 12 16:22:07 2014 jonathan.collinet
-// Last update Sun Feb 16 14:46:56 2014 jonathan.collinet
+// Started on  Mon Feb 17 18:44:05 2014 jonathan.collinet
+// Last update Tue Feb 18 14:53:49 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
 
 Parser::Parser()
 {
+  _lexer["exit"] = EXIT_PROG;
+  _lexer["pop"] = INSTR;
+  _lexer["dump"] = INSTR;
+  _lexer["add"] = INSTR;
+  _lexer["sub"] = INSTR;
+  _lexer["mul"] = INSTR;
+  _lexer["div"] = INSTR;
+  _lexer["mod"] = INSTR;
+  _lexer["print"] = INSTR;
+  _lexer["push"] = INSTR_ARG;
+  _lexer["assert"] = INSTR_ARG;  
+  _lexer["int8"] = TYPE;
+  _lexer["int16"] = TYPE;
+  _lexer["int32"] = TYPE;
+  _lexer["float"] = TYPE;
+  _lexer["double"] = TYPE;
+  _lexer_type["int8"] = INT8;
+  _lexer_type["int16"] = INT16;
+  _lexer_type["int32"] = INT32;
+  _lexer_type["float"] = FLOAT;
+  _lexer_type["double"] = DOUBLE;
+  _cur_line = 0;
 }
 
-bool		Parser::isNumber(const char &c)
+bool			Parser::isNumber(const char &c)
 {
   int		i = -1;
   std::string	nbr = "0123456789";
@@ -25,35 +47,7 @@ bool		Parser::isNumber(const char &c)
   return (false);
 }
 
-void		Parser::isValidNumber(const std::string &str, const short &type, int nbline)
-{
-  int		i = -1;
-  bool		hd = false;
-  bool		hnad = false;
-  std::string	key_arg_value[] = {"int8", "int16", "int32", "float", "double", "" };
-
-  while (str[++i])
-    {
-      if (!isNumber(str[i]))
-	{
-	  if (type <= 2)
-	    throw new Exception(std::string("\"" + str + "\" isn't a valid number for type " + key_arg_value[type] + "."), nbline);
-	  else if (str[i] != '.' && type > 2)
-	    throw new Exception(std::string("\"" + str + "\" isn't a valid number or dot for type " + key_arg_value[type] + "."), nbline);
-	  else if (str[i] == '.' && type > 2)
-	    hd = true;
-	}
-      else if (hd && type > 2)
-	hnad = true;
-    }
-  if (type > 2 && !hd)
-    throw new Exception(std::string("\"" + str + "\" have " + key_arg_value[type] + " type without dot."), nbline);
-  else if (type > 2 && hd && !hnad)
-    throw new Exception(std::string("\"" + str + "\" have " + key_arg_value[type] + " type without number after dot."), nbline);
-}
-
-// get last pos of c only while is it
-int		Parser::getLastFirstPos_of(std::string &str, const char c) const
+int			Parser::getLastFirstPos_of(std::string &str, const char c) const
 {
   int		i = -1;
   std::string	n = "";
@@ -62,100 +56,164 @@ int		Parser::getLastFirstPos_of(std::string &str, const char c) const
   return (i);
 }
 
-void		Parser::getInnerBrackets(size_t pos, std::string &str,
-					 const std::string &key_arg_instr,
-					 const std::string &key_arg_value,
-					 const short &type, 
-					 int nbline)
+std::list<std::string>	Parser::explodeString(const std::string &str, const char c)
 {
-  std::string	nbr = "";
+  int					i = -1;
+  std::list<std::string>		l(1, "");
+  std::list<std::string>::iterator	it = l.begin();
 
-  str = str.substr(pos, str.size());
-  if ((pos = str.find(")")) != std::string::npos)
+  l.push_back("");
+  while (str[++i])
     {
-      str = str.substr(key_arg_value.size(), pos - 1);
-      nbr = str.substr(0, str.size() - 1);
-      isValidNumber(nbr, type, nbline);
-      std::cout << "Cool, i want to \""+ key_arg_instr + "\" the type \"" 
-	+ key_arg_value.substr(0, key_arg_value.size() - 1) + "\" with number : \"" 
-		<< nbr << "\"." << std::endl;
-      return ;
+      if (str[i] != c)
+	*it += str[i];
+      if (str[i] == c)
+	{
+	  while (str[i] == c)
+	    ++i;
+	  --i;
+	  l.push_back("");
+	  ++it;
+	}
     }
-  throw new Exception(std::string("brackets not closed. Re-Read your syntax."), nbline);
+  return (l);
 }
 
-void		Parser::parseInstrWithArg(std::string &str, size_t pos, 
-					  const std::string &key_arg_instr, int nbline)
+std::string		Parser::checkType(const std::string &val, EType &type)
 {
-  std::string	key_arg_value[] = {"int8(", "int16(", "int32(", "float(", "double(", "" };
-  int		j = -1;
+  size_t		pos = 0;
+  std::string		ret = "";
 
-  str = str.erase(0, (pos + key_arg_instr.size()));
-  if (str.find(" ") == std::string::npos)
-    throw new Exception(std::string("wrong separator. Must be \" \" (space)."), nbline);
-  while (key_arg_value[++j] != "")
-    if ((pos = str.find(key_arg_value[j])) != std::string::npos)
+  if ((pos = val.find_first_of("(")) != std::string::npos)
+    {
+      ret = val.substr(0, pos);
+      if (_lexer[ret] != TYPE)
+	throw new Exception(std::string("operand isn't exist : \"") + ret + "\"", _cur_line);
+      type = _lexer_type[ret];
+      return (ret);
+    }
+  throw new Exception(std::string("open parenthesis \"(\" isn't exist in string \"") + val + "\"", _cur_line);
+}
+
+void			Parser::checkOUNderflow(const std::string &val, bool neg, const EType &t)
+{
+  (void)val;
+  (void)neg;
+  (void)t;
+}
+
+void			Parser::isValidNumber(const std::string &val, const EType &t)
+{
+  int			i = -1;
+  bool			dot = false;
+  bool			hnb = false;
+  bool			neg = false;
+
+  while (val[++i])
+    if (isNumber(val[i]))
       {
-	getInnerBrackets(pos, str, key_arg_instr, key_arg_value[j], j, nbline);
-	return ;
+	hnb = true;
+	if (t < FLOAT)
+	  if (dot)
+	    throw new Exception(std::string("have a float number in a wrong type : \"") + val + "\"", _cur_line);
       }
-  throw new Exception(std::string("\"" + key_arg_instr + "\" must have a valid argument, not like \"" + str + "\""), nbline);
+    else
+      if (val[i] == '.' && !dot && hnb)
+	dot = true;
+      else if (val[i] == '-' && !neg && !hnb)
+	neg = true;
+      else
+	throw new Exception(std::string("wrong syntaxe number \"") + val + "\"", _cur_line);
+  if (t >= FLOAT && !dot)
+    throw new Exception(std::string("havn't float number in float type : \"") + val + "\"", _cur_line);
+  checkOUNderflow(val, neg, t);
 }
 
-bool		Parser::isKey(std::string &str, int nbline)
+std::string		Parser::checkValue(const std::string &val, const EType &t)
 {
-  std::string	key_instr[] = {"pop", "dump", "add", "sub", "mul", "div", "mod", "print", "exit", ""};
-  std::string	key_arg_instr[] = {"push", "assert", ""};
-  size_t	pos = 0;
-  int		i = -1;
+  std::string		number = "";
+  size_t		posl = 0;
+  size_t		posr = 0;
 
-   while (key_arg_instr[++i] != "")
-     if ((pos = str.find(key_arg_instr[i])) != std::string::npos)
-       {
-	 parseInstrWithArg(str, pos, key_arg_instr[i], nbline);
-	 return (true);
-       }
-   i = -1;
-   while (key_instr[++i] != "")
-     if ((pos = str.find(key_instr[i])) != std::string::npos)
-       {
-	 std::cout << "Just want to \"" << key_instr[i] << "\"." << std::endl;
-	 if (key_instr[i] == "exit")
-	   return (false) ;
-	 return (true);
-       }
-   throw new Exception(std::string("\"" + str + "\" is not a valid keyword."), nbline);
+  if ((posl = val.find_first_of("(")) != std::string::npos)
+    {
+      if ((posr = val.find_first_of(")")) != std::string::npos)
+	{
+	  number = val.substr((posl + 1), posr - (posl + 1));
+	  isValidNumber(number, t);
+	  return (number);
+	}
+      throw new Exception(std::string("clone parenthesis \")\" isn't exist in string \"") + val + "\"", _cur_line);
+    }
+  throw new Exception(std::string("open parenthesis \"(\" isn't exist in string \"") + val + "\"", _cur_line);
 }
 
-bool			Parser::checkLine(std::string &line, int nbline)
+void			Parser::setValues(const std::string &instr, const std::string &type, const std::string &value)
+{
+  std::cout << "------------------" << std::endl
+	    << instr << std::endl;
+  std::cout << type << std::endl;
+  std::cout << value << std::endl 
+	    << "------------------" << std::endl;
+  _values[INSTR] = instr;
+  _values[TYPE] = type;
+  _values[VALUE] = value;
+}
+
+bool			Parser::parseLine(std::string &line)
+{
+  std::string				ret = "";
+  std::string				next_it = "";
+  std::list<std::string>		line_parse;
+  std::list<std::string>::iterator	it;
+  EType					t = ERR;
+
+  line_parse = explodeString(line, ' ');
+  it = line_parse.begin();
+  if (_lexer[*it] == INSTR)
+    setValues(*it, "", "");
+  else if (_lexer[*it] == INSTR_ARG)
+    {
+      next_it = *(++it);
+      ret = checkType(next_it, t);
+      setValues(*(--it), ret, checkValue(next_it, t));
+    }
+  else if (_lexer[*it] == EXIT_PROG)
+    return (false);
+  else
+    throw new Exception(std::string("syntax problem : \"" + *it + "\" : isn't a good word."), _cur_line);
+  return (true);
+}
+
+bool			Parser::checkLine(std::string &line)
 {
   if (line[0] != ';' && line != "" && line[0] != '\n')
-    if (!isKey(line, nbline))
+    if (!parseLine(line))
       return (false);
   return (true);
 }
 
 void			Parser::parseFile(const char *file)
 {
-  int			nbline = 1;
   std::ifstream		my_file(file);
+  std::string		line = "";
 
   if (my_file.is_open())
     {
-      std::string	line = "";
+      ++_cur_line;
       while (getline(my_file, line))
 	{
-	  if (!checkLine(line, nbline))
+	  if (!checkLine(line))
 	    {
 	      std::cout << "Programm exited. Good bye !" << std::endl;
 	      return ;
 	    }
-	  ++nbline;
+	  ++_cur_line;
 	}
       my_file.close();
     }
   else
-    throw new Exception(std::string("cannot open the file : \"") + file + "\".", nbline);
+    throw new Exception(std::string("cannot open the file : \"") + file + "\".", _cur_line);
 }
 
 void			Parser::parseIn()
@@ -163,7 +221,6 @@ void			Parser::parseIn()
   std::string		all = "";
   std::string		line = "";
   size_t		pos = 0;
-  int			nbline = 1;
   int			first = 1;
 
   getline(std::cin, line, '\n');
@@ -177,11 +234,11 @@ void			Parser::parseIn()
       if (all[0] == '\n' && all[1] == '\0')
 	break;
       first = getLastFirstPos_of(all, '\n');
-      nbline += first;
+      _cur_line += first;
       all = all.erase(0, first);
       pos = all.find_first_of("\n");
       line = all.substr(0, pos);
-      if (!checkLine(line, nbline))
+      if (!checkLine(line))
 	{
 	  std::cout << "Programm exited. Good bye !" << std::endl;
 	  return ;
@@ -190,7 +247,7 @@ void			Parser::parseIn()
     }
 }
 
-void			Parser::parseAndPush(/* Memory m, */ const char *file)
+void			Parser::parseOnFlow(/* Memory m, */ const char *file)
 {
   if (file)
     parseFile(file);
