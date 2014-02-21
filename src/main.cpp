@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Tue Feb 11 23:37:50 2014 DEBAS
-// Last update Thu Feb 20 02:16:48 2014 jonathan.collinet
+// Last update Fri Feb 21 15:29:58 2014 jonathan.collinet
 */
 
 #include "Abstract.hpp"
@@ -27,10 +27,9 @@ int	main(int ac, char *av[])
       {
 	a.getParser().parseOnFlow(av[1]);
       }
-    catch (Exception *p)
+    catch (Exception &p)
       {
-	std::cerr << "Error : line " << p->where() << " : " << p->what() << std::endl;
-	delete p;
+	std::cerr << "Error : line " << p.where() << " : " << p.what() << std::endl;
       }
   return (0);
 }

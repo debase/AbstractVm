@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Mon Feb 17 18:44:05 2014 jonathan.collinet
-// Last update Fri Feb 21 15:20:15 2014 jonathan.collinet
+// Last update Fri Feb 21 15:29:27 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -96,7 +96,7 @@ std::list<std::string>	Parser::explodeString(const std::string &str, const char 
 std::string		Parser::parseType(const std::string &val, EType &type)
 {
   if (_lexer[val] != TYPE)
-    throw new BadOperand(val, _cur_line);
+    throw BadOperand(val, _cur_line);
   type = _lexer_type[val];
   return (val);
 }
@@ -121,7 +121,7 @@ std::string		Parser::checkType(std::string &val, EType &type, std::list<std::str
       return (ret);
     }
   else
-    throw new BadOperand(val, _cur_line);
+    throw BadOperand(val, _cur_line);
 }
 
 unsigned int		getSumAsciiOf(const std::string &val)
@@ -145,9 +145,9 @@ void			Parser::checkNonFloatantOverflow(const std::string &val, const bool &neg,
   str_s << ascii_sum;
   str_s >> max_val_str;
   if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val) && !neg)
-    throw new Overflow(val, _cur_line);
+    throw Overflow(val, _cur_line);
   else if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val))
-    throw new Underflow(val, _cur_line);
+    throw Underflow(val, _cur_line);
 }
 
 void			Parser::checkFloatantOverflow(const std::string &val, const bool &neg, const EType &t)
@@ -168,7 +168,7 @@ void			Parser::checkFloatantOverflow(const std::string &val, const bool &neg, co
       std::cout << "f1 : " <<  f1 << std::endl;
       std::cout <<  "str : " << str_f1.str() << std::endl;
       if (f != f1)
-	throw new Overflow(val, _cur_line);
+	throw Overflow(val, _cur_line);
     }
   else
     {
@@ -192,9 +192,9 @@ void			Parser::checkOverflow(const std::string &val, const bool &neg, const ETyp
       str_s >> max_val_str;
       //std::cout << max_val_str << std::endl;
       if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val) && !neg)
-	throw new Overflow(val, _cur_line);
+	throw Overflow(val, _cur_line);
       else if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val))
-	throw new Underflow(val, _cur_line);
+	throw Underflow(val, _cur_line);
     }
   else
     {
@@ -205,9 +205,9 @@ void			Parser::checkOverflow(const std::string &val, const bool &neg, const ETyp
       //std::cout << max_val_str << std::endl;
       //std::cout << val << std::endl;
       if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val) && !neg)
-	throw new Overflow(val, _cur_line);
+	throw Overflow(val, _cur_line);
       else if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val))
-	throw new Underflow(val, _cur_line);
+	throw Underflow(val, _cur_line);
     }
 }
 
@@ -220,13 +220,13 @@ void			Parser::isValidNumber(const std::string &val, const EType &t)
   bool			neg = false;
 
   if (val == "")
-    throw new NullValue("", _cur_line);
+    throw NullValue("", _cur_line);
   while (val[++i])
     if (isNumber(val[i]))
       {
 	hnb = true;
 	if (t < FLOAT && dot)
-	  throw new BadNumber(val, _cur_line);
+	  throw BadNumber(val, _cur_line);
 	if (dot && !hnbad)
 	  hnbad = true;
       }
@@ -236,11 +236,11 @@ void			Parser::isValidNumber(const std::string &val, const EType &t)
       else if (val[i] == '-' && !neg && !hnb)
 	neg = true;
       else
-	throw new BadNumber(val, _cur_line);
+	throw BadNumber(val, _cur_line);
   if (t >= FLOAT && !dot)
-    throw new BadFloatNumber(val, _cur_line);
+    throw BadFloatNumber(val, _cur_line);
   if (dot && !hnbad)
-    throw new BadFloatNumber(val, _cur_line);
+    throw BadFloatNumber(val, _cur_line);
   checkOverflow(val, neg, t);
 }
 
@@ -315,7 +315,7 @@ bool			Parser::parseLine(std::string &line)
   else if (_lexer[*it] == EXIT_PROG)
     return (false);
   else
-    throw new BadInstr(*it, _cur_line);
+    throw BadInstr(*it, _cur_line);
   return (true);
 }
 
@@ -353,7 +353,7 @@ void			Parser::parseFile(const char *file)
 	    }
 	  std::cout << "line : \""+line+"\"" << std::endl;
 	  if (!_p_right && _values[VALUE] != "")
-	    throw new LeftClosedParth(line, _cur_line);
+	    throw LeftClosedParth(line, _cur_line);
 
 	  // debug a degager
 	  std::cout << "Instruction : \""+_values[Parser::INSTR] << "\"" << std::endl;
@@ -364,11 +364,11 @@ void			Parser::parseFile(const char *file)
 	  ++_cur_line;
 	}
       if (!_min_one)
-	throw new FileEmpty(file, _cur_line);
+	throw FileEmpty(file, _cur_line);
       my_file.close();
     }
   else
-    throw new FileNotOpened(file, _cur_line);
+    throw FileNotOpened(file, _cur_line);
 }
 
 void			Parser::parseIn()
