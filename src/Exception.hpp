@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Thu Feb 13 13:24:19 2014 jonathan.collinet
-// Last update Sun Feb 16 14:22:42 2014 jonathan.collinet
+// Last update Thu Feb 20 12:04:33 2014 jonathan.collinet
 //
 
 #ifndef EXCEPTION_HPP_
@@ -23,9 +23,140 @@ public:
   virtual const char*		what() const throw();
   virtual int			where() const throw();
 
+  private:
+    std::string			_message;
+    int				_line;
+};
+
+class				FileNotOpened : public Exception
+{
+public:
+  FileNotOpened(const std::string &, const int &) throw();
+  virtual ~FileNotOpened() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+    
+private:
+  std::string			_message;
+  int				_line;
+};
+  
+class				LeftClosedParth : public Exception
+{
+public:
+  LeftClosedParth(const std::string &, const int &) throw();
+  virtual ~LeftClosedParth() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+    
+private:
+  std::string			_message;
+  int				_line;
+};
+  
+class				BadInstr : public Exception
+{
+public:
+  BadInstr(const std::string &, const int &) throw();
+  virtual ~BadInstr() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+    
+private:
+  std::string			_message;
+  int				_line;
+};
+  
+class				BadNumber : public Exception
+{
+public:
+  BadNumber(const std::string &, const int &) throw();
+  virtual ~BadNumber() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+    
+private:
+  std::string			_message;
+  int				_line;
+};
+  
+class				BadFloatNumber : public Exception
+{
+public:
+  BadFloatNumber(const std::string &, const int &) throw();
+  virtual ~BadFloatNumber() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+    
+private:
+  std::string			_message;
+  int				_line;
+};
+  
+class				BadOperand : public Exception
+{
+public:
+  BadOperand(const std::string &, const int &) throw();
+  virtual ~BadOperand() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+    
+private:
+  std::string			_message;
+  int				_line;
+};
+  
+class				NullValue : public Exception
+{
+public:
+  NullValue(const std::string &, const int &) throw();
+  virtual ~NullValue() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+
+private:
+  std::string			_message;
+  int				_line;
+};
+
+class				FileEmpty : public Exception
+{
+public:
+  FileEmpty(const std::string &, const int &) throw();
+  virtual ~FileEmpty() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+
+private:
+  std::string			_message;
+  int				_line;
+};
+
+class				Overflow : public Exception
+{
+public:
+  Overflow(const std::string &, const int &) throw();
+  virtual ~Overflow() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+
+private:
+  std::string			_message;
+  int				_line;
+};
+
+class				Underflow : public Exception
+{
+public:
+  Underflow(const std::string &, const int &) throw();
+  virtual ~Underflow() throw();
+  virtual const char*		what() const throw();
+  virtual int			where() const throw();
+
 private:
   std::string			_message;
   int				_line;
 };
 
 #endif
+  

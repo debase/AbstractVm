@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Tue Feb 11 23:37:50 2014 DEBAS
-// Last update Tue Feb 18 14:52:24 2014 jonathan.collinet
+// Last update Thu Feb 20 02:16:48 2014 jonathan.collinet
 */
 
 #include "Abstract.hpp"
@@ -18,6 +18,7 @@ void	usage()
 int	main(int ac, char *av[])
 {
   Abstract a;
+  std::map<Parser::ELexer, std::string> _values;
 
   if (ac > 2)
     usage();
