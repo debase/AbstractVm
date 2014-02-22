@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 // 
 // Started on  Mon Feb 17 18:44:05 2014 jonathan.collinet
-// Last update Fri Feb 21 15:29:27 2014 jonathan.collinet
+// Last update Sat Feb 22 19:34:34 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -40,6 +40,9 @@ Parser::Parser()
   _get_sum_nf[INT32] = std::numeric_limits<int>::max();
   _get_sum_f[FLOAT] = std::numeric_limits<float>::max();
   _get_sum_f[DOUBLE] = std::numeric_limits<double>::max();
+  _values[INSTR] = "";
+  _values[TYPE] = "";
+  _values[VALUE] = "";
   _cur_line = 0;
   _p_left = false;
   _p_right = false;
@@ -134,47 +137,6 @@ unsigned int		getSumAsciiOf(const std::string &val)
   return (sum);
 }
 
-void			Parser::checkNonFloatantOverflow(const std::string &val, const bool &neg, const EType &t)
-{
-  unsigned int	ascii_sum = _get_sum_nf[t];
-  std::string	max_val_str;
-  std::stringstream	str_s;
-
-  if (neg)
-    ascii_sum = ((ascii_sum * -1) - 1);
-  str_s << ascii_sum;
-  str_s >> max_val_str;
-  if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val) && !neg)
-    throw Overflow(val, _cur_line);
-  else if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val))
-    throw Underflow(val, _cur_line);
-}
-
-void			Parser::checkFloatantOverflow(const std::string &val, const bool &neg, const EType &t)
-{
-  if (t == FLOAT)
-    {
-      float		f = 0.0;
-      float		f1 = 0.0;
-      std::string	str = "";
-      std::stringstream	str_f;
-      std::stringstream	str_f1;
-
-      str_f << val;
-      str_f >> f;
-      std::cout << "f : " << f << std::endl;
-      str_f1 << f;
-      str_f1 >> f1;
-      std::cout << "f1 : " <<  f1 << std::endl;
-      std::cout <<  "str : " << str_f1.str() << std::endl;
-      if (f != f1)
-	throw Overflow(val, _cur_line);
-    }
-  else
-    {
-    }
-}
-
 void			Parser::checkOverflow(const std::string &val, const bool &neg, const EType &t)
 {
   unsigned int	ascii_sum_nf = 0;
@@ -198,16 +160,6 @@ void			Parser::checkOverflow(const std::string &val, const bool &neg, const ETyp
     }
   else
     {
-      if (neg)
-	ascii_sum_f = ((ascii_sum_f * -1) - 1);
-      str_s << std::setprecision(200) << ascii_sum_f;
-      str_s >> max_val_str;
-      //std::cout << max_val_str << std::endl;
-      //std::cout << val << std::endl;
-      if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val) && !neg)
-	throw Overflow(val, _cur_line);
-      else if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val))
-	throw Underflow(val, _cur_line);
     }
 }
 
@@ -351,7 +303,6 @@ void			Parser::parseFile(const char *file)
 	      std::cout << "Programm exited. Good bye !" << std::endl;
 	      return ;
 	    }
-	  std::cout << "line : \""+line+"\"" << std::endl;
 	  if (!_p_right && _values[VALUE] != "")
 	    throw LeftClosedParth(line, _cur_line);
 
