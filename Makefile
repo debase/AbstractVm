@@ -5,7 +5,7 @@
 ## Login   <collin_b@epitech.net>
 ## 
 ## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
-## Last update Sat Feb 15 20:27:18 2014 DEBAS
+## Last update Sat Feb 22 16:54:48 2014 Etienne
 ##
 
 SRC		=	main.cpp \
@@ -15,6 +15,7 @@ SRC		=	main.cpp \
 			Memory.cpp \
 			Instruction.cpp \
 			OperandFactory.cpp \
+			Operand.cpp \
 
 CC		=	g++
 

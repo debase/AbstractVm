@@ -5,11 +5,10 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Sat Feb 15 20:15:56 2014 DEBAS
-** Last update Sat Feb 15 22:25:38 2014 DEBAS
+// Last update Sat Feb 22 18:59:06 2014 Etienne
 */
 
 #include <sys/types.h>
-#include "OperandFactory.hpp"
 #include "Operand.hpp"
 
 OperandFactory::OperandFactory() {
@@ -29,21 +28,46 @@ IOperand		*OperandFactory::createOperand(eOperandType type,
 }
 
 IOperand		*OperandFactory::createInt8(const std::string &value) const {
-  return (new Operand<int8_t>(Int8, value));
+  int8_t		nbr;
+  std::stringstream	ss;
+
+  ss << value;
+  ss >> nbr;
+  return (new Operand<int8_t>(Int8, nbr));
 }
 
 IOperand		*OperandFactory::createInt16(const std::string &value) const {
-  return (new Operand<int16_t>(Int16, value));
+  int16_t		nbr;
+  std::stringstream	ss;
+
+  ss << value;
+  ss >> nbr;
+  return (new Operand<int16_t>(Int16, nbr));
 }
 
 IOperand		*OperandFactory::createInt32(const std::string &value) const {
-  return (new Operand<int32_t>(Int32, value));
+  int32_t		nbr;
+  std::stringstream	ss;
+
+  ss << value;
+  ss >> nbr;
+  return (new Operand<int32_t>(Int32, nbr));
 }
 
 IOperand		*OperandFactory::createFloat(const std::string &value) const {
-  return (new Operand<float>(Float, value));
+  float			nbr;
+  std::stringstream	ss;
+
+  ss << value;
+  ss >> nbr;
+  return (new Operand<float>(Float, nbr));
 }
 
 IOperand		*OperandFactory::createDouble(const std::string &value) const {
-  return (new Operand<double>(Double, value));
+  double		nbr;
+  std::stringstream	ss;
+
+  ss << value;
+  ss >> nbr;
+  return (new Operand<double>(Double, nbr));
 }
