@@ -1,17 +1,17 @@
 //
-// Parser2.cpp for cpp in /home/collin_b/project/abstract_vm/abstract_VM
-// 
-// Made by jonathan.collinet
-// Login   <collin_b@epitech.net>
-// 
-// Started on  Mon Feb 17 18:44:05 2014 jonathan.collinet
-// Last update Sat Feb 22 19:34:34 2014 jonathan.collinet
+// Parser.cpp for parser in /home/debas_e/Project/abstract_VM
+//
+// Made by Etienne
+// Login   <debas_e@epitech.net>
+//
+// Started on  Sun Feb 23 01:05:27 2014 Etienne
+// Last update Sun Feb 23 19:56:45 2014 Etienne
 //
 
 #include "Parser.hpp"
 
-Parser::Parser()
-{
+Parser::Parser() {
+  _line_number = 0;
   _lexer["exit"] = EXIT_PROG;
   _lexer["pop"] = INSTR;
   _lexer["dump"] = INSTR;
@@ -22,341 +22,214 @@ Parser::Parser()
   _lexer["mod"] = INSTR;
   _lexer["print"] = INSTR;
   _lexer["push"] = INSTR_ARG;
-  _lexer["assert"] = INSTR_ARG;  
-  _lexer["int8"] = TYPE;
-  _lexer["int16"] = TYPE;
-  _lexer["int32"] = TYPE;
-  _lexer["float"] = TYPE;
-  _lexer["double"] = TYPE;
-  _lexer["("] = P_LEFT;
-  _lexer[")"] = P_RIGHT;
-  _lexer_type["int8"] = INT8;
-  _lexer_type["int16"] = INT16;
-  _lexer_type["int32"] = INT32;
-  _lexer_type["float"] = FLOAT;
-  _lexer_type["double"] = DOUBLE;
-  _get_sum_nf[INT8] = std::numeric_limits<char>::max();
-  _get_sum_nf[INT16] = std::numeric_limits<short>::max();
-  _get_sum_nf[INT32] = std::numeric_limits<int>::max();
-  _get_sum_f[FLOAT] = std::numeric_limits<float>::max();
-  _get_sum_f[DOUBLE] = std::numeric_limits<double>::max();
-  _values[INSTR] = "";
-  _values[TYPE] = "";
-  _values[VALUE] = "";
-  _cur_line = 0;
-  _p_left = false;
-  _p_right = false;
-  _min_one = false;
+  _lexer["assert"] = INSTR_ARG;
+
+  _lexer_type["int8"] = Int8;
+  _lexer_type["int16"] = Int16;
+  _lexer_type["int32"] = Int32;
+  _lexer_type["float"] = Float;
+  _lexer_type["double"] = Double;
 }
 
-std::map<Parser::ELexer, std::string>	Parser::getValues()
+void                    Parser::addInstruction(const std::string &instruction,
+                                               const std::string &operande,
+                                               const std::string &value)
 {
-  return (_values);
+  IOperand              *new_ioperand;
+  Instruction           *new_instru;
+  eOperandType          type;
+
+  // std::cout << "-------------------------" << std::endl;
+  // std::cout << "instr = " + instruction << std::endl;
+  // std::cout << "type = " + operande << std::endl;
+  // std::cout << "value = " + value << std::endl;
+  // std::cout << "-------------------------" << std::endl;
+  type = _lexer_type[operande];
+  new_ioperand = factory.createOperand(type, value);
+  new_instru = new Instruction(new_ioperand, instruction);
+  _instruction.push_back(new_instru);
 }
 
-bool			Parser::isNumber(const char &c)
-{
-  int		i = -1;
-  std::string	nbr = "0123456789";
+bool			Parser::isEndIn(const std::string &line) const {
+  std::stringstream	ss(line);
+  std::string		tmp;
 
-  while (nbr[++i])
-    if (c == nbr[i])
-      return (true);
-  return (false);
+  ss >> tmp;
+  if ((tmp.find(";;") == 0) && (tmp.size() == 2)) {
+    return true;
+  }
+  return false;
 }
 
-int			Parser::getLastFirstPos_of(std::string &str, const char c) const
-{
-  int		i = -1;
-  std::string	n = "";
+std::string		Parser::getNextWord() {
+  std::string		word;
 
-  while (str[++i] == c);
-  return (i);
+  line_stream >> word;
+  return word;
 }
 
-std::list<std::string>	Parser::explodeString(const std::string &str, const char c)
-{
-  int					i = -1;
-  std::list<std::string>		l(1, "");
-  std::list<std::string>::iterator	it = l.begin();
+std::string		Parser::getInstruction() {
+  std::string		instr;
 
-  l.push_back("");
-  while (str[++i])
-    if (str[i] != c)
-      *it += str[i];
-    else
-      {
-	while (str[i] == c)
-	  ++i;
-	--i;
-	l.push_back("");
-	++it;
-      }
-  l.push_back("");
-  return (l);
+  line_stream >> instr;
+  if (_lexer.find(instr) == _lexer.end()) {
+    throw BadInstr(instr, _line_number);
+  }
+  return instr;
 }
 
-std::string		Parser::parseType(const std::string &val, EType &type)
-{
-  if (_lexer[val] != TYPE)
-    throw BadOperand(val, _cur_line);
-  type = _lexer_type[val];
-  return (val);
+bool			Parser::isCommentLine(const std::string line) const {
+  std::stringstream	ss(line);
+  std::string		word;
+
+  ss >> word;
+  if (word[0] == COMMENT || word == "")
+    return true;
+  return false;
 }
 
-std::string		Parser::checkType(std::string &val, EType &type, std::list<std::string>::iterator &it)
-{
-  size_t		pos = 0;
-  std::string		ret = "";
+bool			Parser::checkParantheses(const std::string &format) const {
+  size_t		first;
+  size_t		second;
 
-  if ((pos = val.find_first_of("(")) != std::string::npos)
-    {
-      _p_left = true;
-      ret = parseType(val.substr(0, pos), type);
-      if (val[pos + 1] == '\0')
-	val = *(++it);
-      return (ret);
-    }
-  else if (_lexer[val] == TYPE)
-    {
-      ret = parseType(val, type);
-      val = *(++it);
-      return (ret);
-    }
-  else
-    throw BadOperand(val, _cur_line);
+  first = format.find_first_of('(');
+  second = format.find_first_of(')');
+  if (first == std::string::npos ||
+      second == std::string::npos ||
+      first > second)
+    return false;
+  return true;
 }
 
-unsigned int		getSumAsciiOf(const std::string &val)
-{
-  int			i = -1;
-  unsigned int		sum = 0;
+std::string			Parser::formatArgInstr() {
+  std::string		tmp;
+  std::string		format;
+  std::string		withoutPar;
 
-  while (val[++i])
-    sum += ((unsigned int)val[i]);
-  return (sum);
+  while (line_stream >> tmp) {
+    format += tmp;
+  }
+  format.erase(std::remove(format.begin(), format.end(), ' '), format.end());
+  format.erase(std::remove(format.begin(), format.end(), '\t'), format.end());
+  line_stream.clear();
+  line_stream << format;
+  line_stream >> format;
+  if (checkParantheses(format) == false) {
+    throw ParenthesisError(format, _line_number);
+  }
+  withoutPar = format;
+  std::replace(withoutPar.begin(), withoutPar.end(), TOKEN_LEFT, ' ');
+  std::replace(withoutPar.begin(), withoutPar.end(), TOKEN_RIGHT, ' ');
+  line_stream.clear();
+  line_stream << withoutPar;
+  return format;
 }
 
-void			Parser::checkOverflow(const std::string &val, const bool &neg, const EType &t)
-{
-  unsigned int	ascii_sum_nf = 0;
-  double       	ascii_sum_f = 0.0;
-  std::string	max_val_str = "";
-  std::stringstream	str_s;
+std::string		Parser::getOperande() {
+  std::string		op;
 
-  (t < FLOAT) ? (ascii_sum_nf = _get_sum_nf[t]) : (ascii_sum_f = _get_sum_f[t]);
-  if (t < FLOAT)
-    {
-      //      std::cout << _get_sum_nf[t] << std::endl;
-      if (neg)
-	ascii_sum_nf = ((ascii_sum_nf * -1) - 1);
-      str_s << ascii_sum_nf;
-      str_s >> max_val_str;
-      //std::cout << max_val_str << std::endl;
-      if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val) && !neg)
-	throw Overflow(val, _cur_line);
-      else if (getSumAsciiOf(max_val_str) < getSumAsciiOf(val))
-	throw Underflow(val, _cur_line);
-    }
-  else
-    {
-    }
+  op = getNextWord();
+  if (_lexer_type.find(op) == _lexer_type.end())
+    throw BadOperand(op, _line_number);
+  return op;
 }
 
-void			Parser::isValidNumber(const std::string &val, const EType &t)
+bool                    Parser::isValidNumber(const std::string &val, const eOperandType type)
 {
-  int			i = -1;
-  bool			dot = false;
-  bool			hnb = false;
-  bool			hnbad = false;
+  int			i = 0;
   bool			neg = false;
+  bool                  dot = false;
+  std::string		number;
 
-  if (val == "")
-    throw NullValue("", _cur_line);
-  while (val[++i])
-    if (isNumber(val[i]))
-      {
-	hnb = true;
-	if (t < FLOAT && dot)
-	  throw BadNumber(val, _cur_line);
-	if (dot && !hnbad)
-	  hnbad = true;
+  for (i = 0 ; val[i] == '-' || val[i] == '+' ; i++) {
+    if (val[i] == '-')
+      neg = !neg;
+  }
+  number = val.substr(i, val.size());
+  if (number == "") {
+    throw NullValue(val, _line_number);
+  }
+  for (size_t j = 0 ; number[j] ; j++) {
+    if (number[j] == '.') {
+      if (type < Float || dot == true || j == 0 || j == number.size()) {
+	throw BadFloatNumber(val, _line_number);
       }
-    else
-      if (val[i] == '.' && !dot && hnb)
+      else {
 	dot = true;
-      else if (val[i] == '-' && !neg && !hnb)
-	neg = true;
-      else
-	throw BadNumber(val, _cur_line);
-  if (t >= FLOAT && !dot)
-    throw BadFloatNumber(val, _cur_line);
-  if (dot && !hnbad)
-    throw BadFloatNumber(val, _cur_line);
-  checkOverflow(val, neg, t);
-}
-
-std::string		Parser::checkValidValue(std::string &val, const EType &t, size_t &posl)
-{
-  std::string		number = "";
-  size_t		posr = 0;
-
-  if ((posr = val.find_first_of(")")) != std::string::npos)
-    {
-      _p_right = true;
-      number = val.substr((posl + 1), posr - (posl + 1));
-      isValidNumber(number, t);
-      return (number);
+      }
     }
-  else
-    {
-      val = val.erase(0, posl + 1);
-      isValidNumber(val, t);
-      return (val);
+    else if (std::isdigit(number[j]) == false) {
+      return false;
     }
+  }
+  return true;
+  // checkOverflow(val, neg, t);
+  return true;
 }
 
-std::string		Parser::checkValue(std::string &val, const EType &t)
-{
-  size_t		posl = 0;
+std::string		Parser::getValue(std::string operande) {
+  std::string		value;
 
-  if ((posl = val.find_first_of("(")) != std::string::npos)
-    {
-      _p_left = true;
-      return (checkValidValue(val, t, posl));
+  value = getNextWord();
+  if (isValidNumber(value, _lexer_type[operande]) == false) {
+    throw BadNumber(value, _line_number);
+  }
+  return value;
+}
+
+void			Parser::parseLine(std::string line) {
+  std::string		instr = "";
+  std::string		arg_instr;
+  std::string		operande = "";
+  std::string		value = "";
+  std::string		tmp;
+
+  // std::cout << "line: " + line << std::endl;
+  if (isCommentLine(line) == false) {
+    line_stream << line;
+    instr = getInstruction();
+    if (_lexer[instr] == INSTR_ARG) {
+      arg_instr = formatArgInstr();
+      operande = getOperande();
+      value = getValue(operande);
     }
-  else
-    return (checkValidValue(val, t, posl));
+    if (line_stream >> tmp && tmp[0] != COMMENT)
+      throw SyntaxError(tmp, _line_number);
+    addInstruction(instr, operande, value);
+  }
+  line_stream.clear();
 }
 
-void			Parser::parseInstrWithArg(std::list<std::string>::iterator it)
-{
-  std::string				next_it = "";
-  EType					t = ERR;
+std::list<Instruction *>			Parser::execute(const char *file) {
+  std::string			cur_line;
 
-  _min_one = true;
-  _values[INSTR] = *it;
-  next_it = *(++it);
-  _values[TYPE] = checkType(next_it, t, it);
-  if (_lexer[next_it] == P_LEFT)
-    {
-      _p_left = true;
-      next_it = *(++it);
-    }
-  else if (_lexer[*(++it)] == P_RIGHT)
-    _p_right = true;
-  _values[VALUE] = checkValue(next_it, t);
-  if (_lexer[*(++it)] == P_RIGHT)
-    _p_right = true;
-}
+  if (file == NULL) {
+    std::vector<std::string>::iterator it;
+    std::vector<std::string>	vec;
 
-bool			Parser::parseLine(std::string &line)
-{
-  std::string				ret = "";
-  std::list<std::string>		line_parse;
-  std::list<std::string>::iterator	it;
-
-  line_parse = explodeString(line, ' ');
-  it = line_parse.begin();
-  if (*it == "")
-    return (true);
-  if (_lexer[*it] == INSTR)
-    _values[INSTR] = *it;
-  else if (_lexer[*it] == INSTR_ARG)
-    parseInstrWithArg(it);
-  else if (_lexer[*it] == EXIT_PROG)
-    return (false);
-  else
-    throw BadInstr(*it, _cur_line);
-  return (true);
-}
-
-bool			Parser::checkLine(std::string &line)
-{
-  if (line[0] != ';' && line != "" && line[0] != '\n')
-    if (!parseLine(line))
-      return (false);
-  return (true);
-}
-
-void			Parser::reinitValues()
-{
-  _values[INSTR] = "";
-  _values[TYPE] = "";
-  _values[VALUE] = "";
-  _p_left = false;
-  _p_right = false;
-}
-
-void			Parser::parseFile(const char *file)
-{
-  std::ifstream		my_file(file);
-  std::string		line = "";
-
-  if (my_file.is_open())
-    {
-      ++_cur_line;
-      while (getline(my_file, line))
-	{
-	  if (!checkLine(line))
-	    {
-	      std::cout << "Programm exited. Good bye !" << std::endl;
-	      return ;
-	    }
-	  if (!_p_right && _values[VALUE] != "")
-	    throw LeftClosedParth(line, _cur_line);
-
-	  // debug a degager
-	  std::cout << "Instruction : \""+_values[Parser::INSTR] << "\"" << std::endl;
-	  	  std::cout << "Type : \""+_values[Parser::TYPE] << "\""<< std::endl;
-	  	  std::cout << "Value : \""+_values[Parser::VALUE] << "\"" << std::endl;
-
-	  reinitValues();
-	  ++_cur_line;
-	}
-      if (!_min_one)
-	throw FileEmpty(file, _cur_line);
-      my_file.close();
-    }
-  else
-    throw FileNotOpened(file, _cur_line);
-}
-
-void			Parser::parseIn()
-{
-  std::string		all = "";
-  std::string		line = "";
-  size_t		pos = 0;
-  int			first = 1;
-
-  getline(std::cin, line, '\n');
-  while (line != ";;")
-    {
-      all += line + "\n";
-      getline(std::cin, line, '\n');
-    }
-  while (all != "")
-    {
-      if (all[0] == '\n' && all[1] == '\0')
+    while (1) {
+      getline(std::cin, cur_line, '\n');
+      if (isEndIn(cur_line) == true)
 	break;
-      first = getLastFirstPos_of(all, '\n');
-      _cur_line += first;
-      all = all.erase(0, first);
-      pos = all.find_first_of("\n");
-      line = all.substr(0, pos);
-      if (!checkLine(line))
-	{
-	  std::cout << "Programm exited. Good bye !" << std::endl;
-	  return ;
-	}
-      all = all.erase(0, pos);
+      vec.push_back(cur_line);
     }
-}
+    for (it = vec.begin() ; it != vec.end() ; it++) {
+      _line_number++;
+      parseLine(*it);
+    }
+  }
+  else {
+    std::ifstream	input(file);
 
-void			Parser::parseOnFlow(/* Memory m, */ const char *file)
-{
-  if (file)
-    parseFile(file);
-  else
-    parseIn();
+    if (input.is_open()) {
+      while (getline(input, cur_line, '\n')) {
+	_line_number++;
+	parseLine(cur_line);
+      }
+    }
+    else {
+      throw FileNotOpened(file, _line_number);
+    }
+  }
+  return _instruction;
 }

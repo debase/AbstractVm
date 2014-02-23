@@ -1,16 +1,16 @@
 //
 // Exception.cpp for cpp in /home/collin_b/project/abstract_vm/abstract_VM/src
-// 
+//
 // Made by jonathan.collinet
 // Login   <collin_b@epitech.net>
-// 
+//
 // Started on  Thu Feb 13 13:25:09 2014 jonathan.collinet
-// Last update Thu Feb 20 13:01:34 2014 jonathan.collinet
+// Last update Sun Feb 23 15:25:21 2014 Etienne
 //
 
 #include "Exception.hpp"
 
-Exception::Exception(const std::string &message, const int &nbline) throw()
+Exception::Exception(const std::string &message, const int nbline) throw()
 {
   _message = message;
   _line = nbline;
@@ -30,7 +30,7 @@ int		Exception::where() const throw()
   return (_line);
 }
 
-FileNotOpened::FileNotOpened(const std::string &message, const int &nbline) throw()
+FileNotOpened::FileNotOpened(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "cannot open the file : \"" + message + "\"";
@@ -51,28 +51,28 @@ int		FileNotOpened::where() const throw()
   return (_line);
 }
 
-LeftClosedParth::LeftClosedParth(const std::string &message, const int &nbline) throw()
+ParenthesisError::ParenthesisError(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
-  _message = "missing closed parenthesis in line : \"" + message + "\"";
+  _message = "Parenthesis error in line : \"" + message + "\"";
   _line = nbline;
 }
 
-LeftClosedParth::~LeftClosedParth() throw()
+ParenthesisError::~ParenthesisError() throw()
 {
 }
 
-const char*	LeftClosedParth::what() const throw()
+const char*	ParenthesisError::what() const throw()
 {
   return (_message.c_str());
 }
 
-int		LeftClosedParth::where() const throw()
+int		ParenthesisError::where() const throw()
 {
   return (_line);
 }
 
-BadInstr::BadInstr(const std::string &message, const int &nbline) throw()
+BadInstr::BadInstr(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "bad instruction syntax : \"" + message + "\"";
@@ -93,7 +93,7 @@ int		BadInstr::where() const throw()
   return (_line);
 }
 
-BadNumber::BadNumber(const std::string &message, const int &nbline) throw()
+BadNumber::BadNumber(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "bad syntax on not floating number : \"" + message + "\"";
@@ -114,7 +114,7 @@ int		BadNumber::where() const throw()
   return (_line);
 }
 
-BadFloatNumber::BadFloatNumber(const std::string &message, const int &nbline) throw()
+BadFloatNumber::BadFloatNumber(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "bad syntax on floating number : \"" + message + "\"";
@@ -135,7 +135,7 @@ int		BadFloatNumber::where() const throw()
   return (_line);
 }
 
-BadOperand::BadOperand(const std::string &message, const int &nbline) throw()
+BadOperand::BadOperand(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "bad operand syntax : \"" + message + "\"";
@@ -156,7 +156,7 @@ int		BadOperand::where() const throw()
   return (_line);
 }
 
-NullValue::NullValue(const std::string &message, const int &nbline) throw()
+NullValue::NullValue(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "null value : \"" + message + "\"";
@@ -177,7 +177,7 @@ int		NullValue::where() const throw()
   return (_line);
 }
 
-FileEmpty::FileEmpty(const std::string &message, const int &nbline) throw()
+FileEmpty::FileEmpty(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "file is empty : \"" + message + "\"";
@@ -198,7 +198,7 @@ int		FileEmpty::where() const throw()
   return (_line);
 }
 
-Overflow::Overflow(const std::string &message, const int &nbline) throw()
+Overflow::Overflow(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "overflow value : \"" + message + "\"";
@@ -219,7 +219,7 @@ int		Overflow::where() const throw()
   return (_line);
 }
 
-Underflow::Underflow(const std::string &message, const int &nbline) throw()
+Underflow::Underflow(const std::string &message, const int nbline) throw()
   : Exception(message, nbline)
 {
   _message = "underflow value : \"" + message + "\"";
@@ -240,3 +240,23 @@ int		Underflow::where() const throw()
   return (_line);
 }
 
+SyntaxError::SyntaxError(const std::string &message, const int nbline) throw()
+  : Exception(message, nbline)
+{
+  _message = "Syntax error : \"" + message + "\"";
+  _line = nbline;
+}
+
+SyntaxError::~SyntaxError() throw()
+{
+}
+
+const char*	SyntaxError::what() const throw()
+{
+  return (_message.c_str());
+}
+
+int		SyntaxError::where() const throw()
+{
+  return (_line);
+}

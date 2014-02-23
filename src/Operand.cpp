@@ -5,21 +5,23 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Sat Feb 22 19:19:21 2014 Etienne
+// Last update Sun Feb 23 17:56:50 2014 Etienne
 //
 
 #include <sys/types.h>
+#include <limits>
 #include <cmath>
 #include "Operand.hpp"
 
 template<typename Type>
-Operand<Type>::Operand(eOperandType enum_type, Type value) {
-  std::stringstream    ss;
+Operand<Type>::Operand(eOperandType enum_type, Type value, int precision) {
+  std::stringstream	ss;
 
   _enum_type = enum_type;
   _value = value;
-  ss << value;
+  ss << std::fixed << std::setprecision(precision) << value;
   ss >> _str;
+  // std::cout << "Operand :string = " + _str << std::endl;
   factory = new OperandFactory();
 }
 
@@ -98,7 +100,9 @@ IOperand	*Operand<Type>::operator/(const IOperand &rhs) const {
     return res;
   }
   Type          rhs_value = Operand::stringToValue(rhs.toString());
+  // std::cout << this->_value << " ---- " << rhs_value << std::endl;
   Type          res = this->_value / rhs_value;
+  // std::cout << "res = " << Operand::valueToString(res) << std::endl;
   return (factory->createOperand(getType(), Operand::valueToString(res)));
 }
 

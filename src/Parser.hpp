@@ -1,95 +1,68 @@
 //
-// parser.hpp for header in /home/collin_b/project/abstract_vm/abstract_VM/src
-// 
-// Made by jonathan.collinet
-// Login   <collin_b@epitech.net>
-// 
-// Started on  Wed Feb 12 16:14:47 2014 jonathan.collinet
-// Last update Thu Feb 20 13:40:51 2014 jonathan.collinet
+// Parser.hpp for parser in /home/debas_e/Project/abstract_VM
+//
+// Made by Etienne
+// Login   <debas_e@epitech.net>
+//
+// Started on  Sat Feb 22 23:57:05 2014 Etienne
+// Last update Sun Feb 23 16:46:24 2014 Etienne
 //
 
-#ifndef PARSER_HPP_
-# define PARSER_HPP_
+#ifndef PARSER_HH
+#define PARSER_HH
 
-# include <sstream>
-# include <fstream>
-# include <iostream>
-# include <iomanip>
-# include <string>
-# include <limits>
-# include <algorithm>
-# include <list>
-# include <map>
-# include <deque>
-# include "Exception.hpp"
+#include <vector>
+#include <map>
+#include <list>
+#include <sstream>
+#include <fstream>
+#include <iostream>
+#include <algorithm>
+#include "Exception.hpp"
+#include "IOperand.hpp"
+#include "Memory.hpp"
+#include "Instruction.hpp"
+#include "OperandFactory.hpp"
 
-class				Parser
-{
+#define COMMENT ';'
+#define TOKEN_LEFT '('
+#define TOKEN_RIGHT ')'
 
-public:
-  typedef enum			Lexer
-    {
-      ERROR = 0,
-      INSTR,
-      INSTR_ARG,
-      TYPE,
-      VALUE,
-      P_LEFT,
-      P_RIGHT,
-      EXIT_PROG
-    }				ELexer;
-
-  typedef enum			type
-    {
-      ERR = 0,
-      INT8,
-      INT16,
-      INT32,
-      FLOAT,
-      DOUBLE
-    }				EType;
-
+class		Parser {
 private:
-  std::map<std::string, ELexer>	_lexer;
-  std::map<std::string, EType>	_lexer_type;
-  std::map<EType, unsigned int>	_get_sum_nf;
-  std::map<EType, double>	_get_sum_f;
-  std::map<ELexer, std::string>	_values;
-  int				_cur_line;
-  bool				_p_left;
-  bool				_p_right;
-  bool				_min_one;
+typedef enum	Lexer
+  {
+    INSTR,
+    INSTR_ARG,
+    TYPE,
+    VALUE,
+    EXIT_PROG
+  }		ELexer;
 
+  OperandFactory		factory;
+
+  int				_line_number;
+  std::vector<std::string>	argument; //liste d'argument
+  std::map<std::string, ELexer> _lexer; //map de mot clé d'intruction
+  std::map<std::string, eOperandType>  _lexer_type; //map de type
+  std::stringstream		line_stream;
+  std::list<Instruction *>	_instruction;
 public:
   Parser();
-  ~Parser() {}
-
-  void				checkNonFloatantOverflow(const std::string &val, const bool &neg, const EType &t);
-  void				checkFloatantOverflow(const std::string &val, const bool &neg, const EType &t);
-  void				reinitValues();
-  std::map<ELexer, std::string> getValues();  
-  void				parseInstrWithArg(std::list<std::string>::iterator it);
-  std::string			checkValidValue(std::string &val, const EType &t, size_t &);
-  void				checkSpecialCase(const std::string &str, 
-						 std::list<std::string>::iterator &it);
-  std::string			parseType(const std::string &val, EType &type);
-  void				checkOverflow(const std::string &val, const bool &neg, const EType &t);
-  void				isValidNumber(const std::string &val, const EType &t);
-  void				setValues(const std::string &instr, const std::string &type, 
-					  const std::string &value);
-  std::string			checkType(std::string &val, EType &type, 
-					  std::list<std::string>::iterator &it);
-  std::string			checkValue(std::string &val, const EType &);
-  std::list<std::string>	explodeString(const std::string &str, const char c);
-  bool				isNumber(const char &);
-  void				isValidNumber(const std::string &, const short &);
-  bool				checkLine(std::string &);
-  void				parseOnFlow(/* Memory m, */ const char *);
-  void				parseFile(const char *);
-  void				parseIn();
-  bool				parseLine(std::string &);
-  int				getLastFirstPos_of(std::string &, const char) const;
-
+  bool				isEndIn(const std::string &line) const;
+  bool				isCommentLine(const std::string line) const;
+  std::list<Instruction *>	execute(const char *file);
+  void				parseLine(std::string line);
+  bool				checkParantheses(const std::string &arg_instr) const;
+  bool				isValidNumber(const std::string &val, const eOperandType type);
+  std::string			formatArgInstr();
+  std::string			getInstruction();
+  std::string			getValue(std::string arg_instr);
+  std::string			getOperande();
+  std::string			getNextWord();
+  void				addInstruction(const std::string &instruction,
+					       const std::string &operande = "",
+					       const std::string &value = "");
 };
 
 #endif

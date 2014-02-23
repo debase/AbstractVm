@@ -5,7 +5,7 @@
 ## Login   <collin_b@epitech.net>
 ## 
 ## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
-## Last update Sat Feb 22 16:54:48 2014 Etienne
+## Last update Sun Feb 23 18:22:18 2014 Etienne
 ##
 
 SRC		=	main.cpp \
@@ -13,6 +13,7 @@ SRC		=	main.cpp \
 			Parser.cpp \
 			Exception.cpp \
 			Memory.cpp \
+			Cpu.cpp \
 			Instruction.cpp \
 			OperandFactory.cpp \
 			Operand.cpp \

@@ -11,7 +11,7 @@ template <typename Type>
 class Operand : public IOperand
 {
 public:
-Operand(eOperandType enum_type, Type value);
+  Operand(eOperandType enum_type, Type value, int precision);
   int			getPrecision() const;
   std::string const	&toString() const;
   eOperandType		getType() const ;
