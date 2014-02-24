@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Tue Feb 11 23:37:50 2014 DEBAS
-// Last update Sun Feb 23 01:53:46 2014 Etienne
+// Last update Mon Feb 24 00:53:45 2014 Etienne
 */
 
 #include "Abstract.hpp"
@@ -20,19 +20,23 @@ void	usage()
 int		main(int ac, char *av[])
 {
   Abstract	abstract;
-  // std::map<Parser::ELexer, std::string> _values;
 
   if (ac > 2)
     usage();
-  else
+  else {
     try
       {
 	abstract.execute(av[1]);
-	// a.getParser().parseOnFlow(av[1]);
       }
     catch (Exception &p)
       {
-	std::cerr << "Error : line " << p.where() << " : " << p.what() << std::endl;
+	if (p.where() >= 0) {
+	  std::cerr << "Error : line " << p.where() << " : " << p.what() << std::endl;
+	}
+	else {
+	  std::cerr << "Error : " << p.what() << std::endl;
+	}
       }
+  }
   return (0);
 }

@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 01:05:27 2014 Etienne
-// Last update Sun Feb 23 19:56:45 2014 Etienne
+// Last update Sun Feb 23 23:42:32 2014 Etienne
 //
 
 #include "Parser.hpp"
@@ -35,8 +35,8 @@ void                    Parser::addInstruction(const std::string &instruction,
                                                const std::string &operande,
                                                const std::string &value)
 {
-  IOperand              *new_ioperand;
-  Instruction           *new_instru;
+  IOperand              *new_ioperand = NULL;
+  Instruction           *new_instru = NULL;
   eOperandType          type;
 
   // std::cout << "-------------------------" << std::endl;
@@ -45,8 +45,10 @@ void                    Parser::addInstruction(const std::string &instruction,
   // std::cout << "value = " + value << std::endl;
   // std::cout << "-------------------------" << std::endl;
   type = _lexer_type[operande];
-  new_ioperand = factory.createOperand(type, value);
-  new_instru = new Instruction(new_ioperand, instruction);
+  if (value != "") {
+    new_ioperand = factory.createOperand(type, value);
+  }
+  new_instru = new Instruction(new_ioperand, instruction, _line_number);
   _instruction.push_back(new_instru);
 }
 
@@ -177,6 +179,15 @@ std::string		Parser::getValue(std::string operande) {
   return value;
 }
 
+void			Parser::rmComment(std::string &line) {
+  size_t		pos;
+
+  pos = line.find_first_of(';');
+  if (pos != std::string::npos) {
+    line = line.substr(0, pos);
+  }
+}
+
 void			Parser::parseLine(std::string line) {
   std::string		instr = "";
   std::string		arg_instr;
@@ -186,6 +197,7 @@ void			Parser::parseLine(std::string line) {
 
   // std::cout << "line: " + line << std::endl;
   if (isCommentLine(line) == false) {
+    rmComment(line);
     line_stream << line;
     instr = getInstruction();
     if (_lexer[instr] == INSTR_ARG) {
@@ -193,7 +205,7 @@ void			Parser::parseLine(std::string line) {
       operande = getOperande();
       value = getValue(operande);
     }
-    if (line_stream >> tmp && tmp[0] != COMMENT)
+    if (line_stream >> tmp)
       throw SyntaxError(tmp, _line_number);
     addInstruction(instr, operande, value);
   }

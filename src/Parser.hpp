@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 23:57:05 2014 Etienne
-// Last update Sun Feb 23 16:46:24 2014 Etienne
+// Last update Sun Feb 23 23:37:41 2014 Etienne
 //
 
 #ifndef PARSER_HH
@@ -53,6 +53,7 @@ public:
   bool				isCommentLine(const std::string line) const;
   std::list<Instruction *>	execute(const char *file);
   void				parseLine(std::string line);
+  void				rmComment(std::string &line);
   bool				checkParantheses(const std::string &arg_instr) const;
   bool				isValidNumber(const std::string &val, const eOperandType type);
   std::string			formatArgInstr();

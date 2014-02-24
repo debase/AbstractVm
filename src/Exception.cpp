@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 //
 // Started on  Thu Feb 13 13:25:09 2014 jonathan.collinet
-// Last update Sun Feb 23 15:25:21 2014 Etienne
+// Last update Mon Feb 24 00:58:16 2014 Etienne
 //
 
 #include "Exception.hpp"
@@ -20,243 +20,136 @@ Exception::~Exception() throw()
 {
 }
 
-const char*	Exception::what() const throw()
-{
+const char	*Exception::what() const throw() {
   return (_message.c_str());
 }
 
-int		Exception::where() const throw()
-{
-  return (_line);
+int		Exception::where() const throw() {
+  return _line;
 }
 
 FileNotOpened::FileNotOpened(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("cannot open the file : \"" + message + "\"", nbline)
 {
-  _message = "cannot open the file : \"" + message + "\"";
-  _line = nbline;
 }
 
 FileNotOpened::~FileNotOpened() throw()
 {
 }
 
-const char*	FileNotOpened::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		FileNotOpened::where() const throw()
-{
-  return (_line);
-}
-
 ParenthesisError::ParenthesisError(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("Parenthesis error in line : \"" + message + "\"", nbline)
 {
-  _message = "Parenthesis error in line : \"" + message + "\"";
-  _line = nbline;
 }
 
 ParenthesisError::~ParenthesisError() throw()
 {
 }
 
-const char*	ParenthesisError::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		ParenthesisError::where() const throw()
-{
-  return (_line);
-}
-
 BadInstr::BadInstr(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("bad instruction syntax : \"" + message + "\"", nbline)
 {
-  _message = "bad instruction syntax : \"" + message + "\"";
-  _line = nbline;
 }
 
 BadInstr::~BadInstr() throw()
 {
 }
 
-const char*	BadInstr::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		BadInstr::where() const throw()
-{
-  return (_line);
-}
-
 BadNumber::BadNumber(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("Syntax number error: \"" + message + "\"", nbline)
 {
-  _message = "bad syntax on not floating number : \"" + message + "\"";
-  _line = nbline;
 }
 
 BadNumber::~BadNumber() throw()
 {
 }
 
-const char*	BadNumber::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		BadNumber::where() const throw()
-{
-  return (_line);
-}
-
 BadFloatNumber::BadFloatNumber(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("bad syntax on floating number : \"" + message + "\"", nbline)
 {
-  _message = "bad syntax on floating number : \"" + message + "\"";
-  _line = nbline;
 }
 
 BadFloatNumber::~BadFloatNumber() throw()
 {
 }
 
-const char*	BadFloatNumber::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		BadFloatNumber::where() const throw()
-{
-  return (_line);
-}
-
 BadOperand::BadOperand(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("bad operand syntax : \"" + message + "\"", nbline)
 {
-  _message = "bad operand syntax : \"" + message + "\"";
-  _line = nbline;
 }
 
 BadOperand::~BadOperand() throw()
 {
 }
 
-const char*	BadOperand::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		BadOperand::where() const throw()
-{
-  return (_line);
-}
-
 NullValue::NullValue(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("null value : \"" + message + "\"", nbline)
 {
-  _message = "null value : \"" + message + "\"";
-  _line = nbline;
 }
 
 NullValue::~NullValue() throw()
 {
 }
 
-const char*	NullValue::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		NullValue::where() const throw()
-{
-  return (_line);
-}
-
-FileEmpty::FileEmpty(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
-{
-  _message = "file is empty : \"" + message + "\"";
-  _line = nbline;
-}
-
-FileEmpty::~FileEmpty() throw()
-{
-}
-
-const char*	FileEmpty::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		FileEmpty::where() const throw()
-{
-  return (_line);
-}
-
 Overflow::Overflow(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("overflow value : \"" + message + "\"", nbline)
 {
-  _message = "overflow value : \"" + message + "\"";
-  _line = nbline;
 }
 
 Overflow::~Overflow() throw()
 {
 }
 
-const char*	Overflow::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		Overflow::where() const throw()
-{
-  return (_line);
-}
-
 Underflow::Underflow(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("underflow value : \"" + message + "\"", nbline)
 {
-  _message = "underflow value : \"" + message + "\"";
-  _line = nbline;
 }
 
 Underflow::~Underflow() throw()
 {
 }
 
-const char*	Underflow::what() const throw()
-{
-  return (_message.c_str());
-}
-
-int		Underflow::where() const throw()
-{
-  return (_line);
-}
-
 SyntaxError::SyntaxError(const std::string &message, const int nbline) throw()
-  : Exception(message, nbline)
+  : Exception("Syntax error : \"" + message + "\"", nbline)
 {
-  _message = "Syntax error : \"" + message + "\"";
-  _line = nbline;
 }
 
 SyntaxError::~SyntaxError() throw()
 {
 }
 
-const char*	SyntaxError::what() const throw()
+EmptyStackPop::EmptyStackPop(const int nbline) throw()
+  : Exception("Pop on empty stack", nbline)
 {
-  return (_message.c_str());
 }
 
-int		SyntaxError::where() const throw()
+EmptyStackPop::~EmptyStackPop() throw () {
+
+}
+
+ArithmetiqueException::ArithmetiqueException(const std::string &message, const int nbline) throw()
+  : Exception("Error during arithmetique execution : \"" + message + "\"", nbline)
 {
-  return (_line);
+}
+
+ArithmetiqueException::~ArithmetiqueException() throw () {
+
+}
+
+DivZeroException::DivZeroException() throw()
+  : Exception("Division by zero", -1)
+{
+}
+
+DivZeroException::~DivZeroException() throw () {
+
+}
+
+ModZeroException::ModZeroException() throw()
+  : Exception("Modulo by zero", -1)
+{
+}
+
+ModZeroException::~ModZeroException() throw () {
+
 }

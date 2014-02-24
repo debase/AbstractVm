@@ -5,10 +5,11 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:19:23 2014 Etienne
-// Last update Sun Feb 23 19:49:13 2014 Etienne
+// Last update Mon Feb 24 00:49:19 2014 Etienne
 //
 
 #include "Cpu.hpp"
+#include "Exception.hpp"
 
 Cpu::Cpu(Memory *memory) {
   this->_memmory = memory;
@@ -37,7 +38,8 @@ void		Cpu::mul() {
     _memmory->push(*nb1 * *nb2);
   }
   else {
-
+    throw ArithmetiqueException("not enought value on the stack",
+				_instruction->getLine());
   }
 }
 
@@ -53,12 +55,12 @@ void		Cpu::add() {
     _memmory->push(*nb1 + *nb2);
   }
   else {
-
+    throw ArithmetiqueException("not enought value on the stack",
+				_instruction->getLine());
   }
 }
 
 void		Cpu::div() {
-  std::cout << "div" << std::endl;
   IOperand	*nb1;
   IOperand	*nb2;
 
@@ -70,7 +72,8 @@ void		Cpu::div() {
     _memmory->push(*nb1 / *nb2);
   }
   else {
-
+    throw ArithmetiqueException("not enought value on the stack",
+				_instruction->getLine());
   }
 }
 
@@ -86,7 +89,8 @@ void		Cpu::sub() {
     _memmory->push(*nb1 - *nb2);
   }
   else {
-
+    throw ArithmetiqueException("not enought value on the stack",
+				_instruction->getLine());
   }
 }
 
@@ -102,7 +106,8 @@ void		Cpu::mod() {
     _memmory->push(*nb1 % *nb2);
   }
   else {
-
+    throw ArithmetiqueException("not enought value on the stack",
+				_instruction->getLine());
   }
 }
 
@@ -110,7 +115,7 @@ void		Cpu::pop() {
   if (_memmory->stackSize() > 0)
     _memmory->pop();
   else {
-
+    throw EmptyStackPop(this->_instruction->getLine());
   }
 }
 
@@ -125,11 +130,11 @@ void		Cpu::dump() {
 }
 
 void		Cpu::assert() {
-  std::cout << "assert" << std::endl;
+  // std::cout << "assert" << std::endl;
 }
 
 void		Cpu::exit() {
-  std::cout << "exit" << std::endl;
+  // std::cout << "exit" << std::endl;
 }
 
 void		Cpu::execute(std::list<Instruction *> instruction) {

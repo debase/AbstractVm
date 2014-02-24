@@ -5,13 +5,14 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Sun Feb 23 17:56:50 2014 Etienne
+// Last update Mon Feb 24 00:58:50 2014 Etienne
 //
 
 #include <sys/types.h>
 #include <limits>
 #include <cmath>
 #include "Operand.hpp"
+#include "Exception.hpp"
 
 template<typename Type>
 Operand<Type>::Operand(eOperandType enum_type, Type value, int precision) {
@@ -100,9 +101,10 @@ IOperand	*Operand<Type>::operator/(const IOperand &rhs) const {
     return res;
   }
   Type          rhs_value = Operand::stringToValue(rhs.toString());
-  // std::cout << this->_value << " ---- " << rhs_value << std::endl;
+  if (rhs_value == 0.0) {
+    throw DivZeroException();
+  }
   Type          res = this->_value / rhs_value;
-  // std::cout << "res = " << Operand::valueToString(res) << std::endl;
   return (factory->createOperand(getType(), Operand::valueToString(res)));
 }
 
@@ -119,6 +121,9 @@ IOperand	*Operand<Type>::operator%(const IOperand &rhs) const {
     return res;
   }
   Type          rhs_value = Operand::stringToValue(rhs.toString());
+  if (rhs_value == 0.0) {
+    throw ModZeroException();
+  }
   std::string	res = Operand::valueToString(fmod(_value, rhs_value));
   return (factory->createOperand(getType(), res));
 }
