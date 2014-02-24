@@ -5,13 +5,14 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:05:48 2014 Etienne
-// Last update Sun Feb 23 19:22:39 2014 Etienne
+// Last update Mon Feb 24 18:36:32 2014 Etienne
 //
 
 #ifndef CPU_HH
 #define CPU_HH
 
 #include <map>
+#include <sstream>
 #include <iostream>
 #include "Memory.hpp"
 #include "Instruction.hpp"
@@ -33,7 +34,7 @@ public:
   void		push();
   void		dump();
   void		assert();
-  void		exit();
+  void		print();
 private:
   Memory	*_memmory;
 Instruction	*_instruction;

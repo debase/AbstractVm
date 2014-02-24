@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 //
 // Started on  Thu Feb 13 13:24:19 2014 jonathan.collinet
-// Last update Mon Feb 24 00:56:36 2014 Etienne
+// Last update Mon Feb 24 18:35:23 2014 Etienne
 //
 
 #ifndef EXCEPTION_HPP_
@@ -98,11 +98,11 @@ public:
   virtual ~SyntaxError() throw();
 };
 
-class				EmptyStackPop : public Exception
+class				EmptyStack : public Exception
 {
 public:
-  EmptyStackPop(const int) throw();
-  virtual ~EmptyStackPop() throw();
+  EmptyStack(const std::string &, const int) throw();
+  virtual ~EmptyStack() throw();
 };
 
 class				ArithmetiqueException : public Exception
@@ -124,6 +124,27 @@ class				ModZeroException : public Exception
 public:
   ModZeroException() throw();
   virtual ~ModZeroException() throw();
+};
+
+class				PrintTypeException : public Exception
+{
+public:
+  PrintTypeException() throw();
+  virtual ~PrintTypeException() throw();
+};
+
+class				AssertException : public Exception
+{
+public:
+  AssertException() throw();
+  virtual ~AssertException() throw();
+};
+
+class				 ExitNotFoundException : public Exception
+{
+public:
+  ExitNotFoundException() throw();
+  virtual ~ ExitNotFoundException() throw();
 };
 
 #endif

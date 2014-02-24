@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:19:23 2014 Etienne
-// Last update Mon Feb 24 00:49:19 2014 Etienne
+// Last update Mon Feb 24 18:36:05 2014 Etienne
 //
 
 #include "Cpu.hpp"
@@ -21,9 +21,9 @@ Cpu::Cpu(Memory *memory) {
   _exec_instr["mod"] = &Cpu::mod;
   _exec_instr["pop"] = &Cpu::pop;
   _exec_instr["push"] = &Cpu::push;
+  _exec_instr["print"] = &Cpu::print;
   _exec_instr["dump"] = &Cpu::dump;
   _exec_instr["assert"] = &Cpu::assert;
-  _exec_instr["exit"] = &Cpu::exit;
 }
 
 void		Cpu::mul() {
@@ -115,7 +115,7 @@ void		Cpu::pop() {
   if (_memmory->stackSize() > 0)
     _memmory->pop();
   else {
-    throw EmptyStackPop(this->_instruction->getLine());
+    throw EmptyStack("pop", this->_instruction->getLine());
   }
 }
 
@@ -130,11 +130,39 @@ void		Cpu::dump() {
 }
 
 void		Cpu::assert() {
-  // std::cout << "assert" << std::endl;
+  IOperand	*value;
+  IOperand	*onTop;
+
+  if (_memmory->stackSize() == 0) {
+    throw EmptyStack("assert", _instruction->getLine());
+  }
+  onTop = _memmory->getFirst();
+  value = _instruction->getOperand();
+  if ((onTop->getType() != value->getType())
+      || (onTop->toString() != value->toString()))
+    {
+      throw AssertException();
+    }
 }
 
-void		Cpu::exit() {
-  // std::cout << "exit" << std::endl;
+void		Cpu::print() {
+  IOperand	*value;
+
+  if (_memmory->stackSize() == 0) {
+    throw EmptyStack("print", _instruction->getLine());
+  }
+  value = _memmory->getFirst();
+  if (value->getType() == Int8) {
+    char		c;
+    std::stringstream	ss;
+
+    ss << value->toString();
+    ss >> c;
+    std::cout << c << std::endl;
+  }
+  else {
+    throw PrintTypeException();
+  }
 }
 
 void		Cpu::execute(std::list<Instruction *> instruction) {
@@ -142,8 +170,17 @@ void		Cpu::execute(std::list<Instruction *> instruction) {
   ptrf					ptr;
 
   for (it = instruction.begin() ; it != instruction.end() ; it++) {
-    this->_instruction = *it;
-    ptr = _exec_instr[this->_instruction->getInstruction()];
-    (this->*ptr)();
+    _instruction = *it;
+    if (_instruction->getInstruction() == "exit")
+      return ;
+    ptr = _exec_instr[_instruction->getInstruction()];
+    try {
+      (this->*ptr)();
+    }
+    catch (Exception &e) {
+      std::cerr << "Error : line " << _instruction->getLine() << " : " << e.what() << std::endl;
+      return ;
+    }
   }
+  throw ExitNotFoundException();
 }

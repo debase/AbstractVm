@@ -5,9 +5,10 @@
 // Login   <collin_b@epitech.net>
 //
 // Started on  Wed Feb 12 16:30:04 2014 jonathan.collinet
-// Last update Sun Feb 23 19:19:52 2014 Etienne
+// Last update Mon Feb 24 18:34:34 2014 Etienne
 //
 
+#include "Exception.hpp"
 #include "Abstract.hpp"
 
 Abstract::Abstract() {
@@ -25,6 +26,18 @@ Abstract::~Abstract() {
 void		Abstract::execute(const char *file) {
   std::list<Instruction *> instruction;
 
-  instruction = parser->execute(file);
-  cpu->execute(instruction);
+  try {
+    instruction = parser->execute(file);
+  }
+  catch (Exception &e) {
+    std::cerr << "Error : line " << e.where() << " : " << e.what() << std::endl;
+    return ;
+  }
+  try {
+    cpu->execute(instruction);
+  }
+  catch (Exception &e) {
+    std::cerr << "Error : " << e.what() << std::endl;
+    return ;
+  }
 }

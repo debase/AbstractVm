@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 01:05:27 2014 Etienne
-// Last update Sun Feb 23 23:42:32 2014 Etienne
+// Last update Mon Feb 24 14:12:21 2014 Etienne
 //
 
 #include "Parser.hpp"
@@ -96,6 +96,9 @@ bool			Parser::checkParantheses(const std::string &format) const {
 
   first = format.find_first_of('(');
   second = format.find_first_of(')');
+  if (std::count (format.begin(), format.end(), '(')
+      + std::count (format.begin(), format.end(), ')') > 2)
+    return false;
   if (first == std::string::npos ||
       second == std::string::npos ||
       first > second)
