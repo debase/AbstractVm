@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:19:23 2014 Etienne
-// Last update Mon Feb 24 19:02:21 2014 jonathan.collinet
+// Last update Mon Feb 24 19:05:54 2014 Etienne
 //
 
 #include "Cpu.hpp"
@@ -69,7 +69,7 @@ void		Cpu::div() {
     _memmory->pop();
     nb2 = _memmory->getFirst();
     _memmory->pop();
-    _memmory->push(*nb1 / *nb2);
+    _memmory->push(*nb2 / *nb1);
   }
   else {
     throw ArithmetiqueException("not enought value on the stack",
@@ -86,7 +86,7 @@ void		Cpu::sub() {
     _memmory->pop();
     nb2 = _memmory->getFirst();
     _memmory->pop();
-    _memmory->push(*nb1 - *nb2);
+    _memmory->push(*nb2 - *nb1);
   }
   else {
     throw ArithmetiqueException("not enought value on the stack",
@@ -103,7 +103,7 @@ void		Cpu::mod() {
     _memmory->pop();
     nb2 = _memmory->getFirst();
     _memmory->pop();
-    _memmory->push(*nb1 % *nb2);
+    _memmory->push(*nb2 % *nb1);
   }
   else {
     throw ArithmetiqueException("not enought value on the stack",
