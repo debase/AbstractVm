@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 //
 // Started on  Thu Feb 13 13:24:19 2014 jonathan.collinet
-// Last update Mon Feb 24 00:56:36 2014 Etienne
+// Last update Mon Feb 24 13:53:45 2014 jonathan.collinet
 //
 
 #ifndef EXCEPTION_HPP_
@@ -22,10 +22,10 @@ public:
   virtual ~Exception() throw();
   virtual const char*		what() const throw();
   virtual int			where() const throw();
-
-  private:
-    std::string			_message;
-    int				_line;
+  
+private:
+  std::string			_message;
+  int				_line;
 };
 
 class				FileNotOpened : public Exception
