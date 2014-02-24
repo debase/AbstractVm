@@ -2,13 +2,6 @@
 ; KREOG <o-o>
 ;----------------
 
-push int32 ()5
-push int32 (10)
-mod
-push float (5.0)
-;mul
-;push double (42.42)
-;push int32(42)
-dump;toto
-pop
+push int8 (48)
+print
 exit

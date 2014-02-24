@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Sat Feb 15 20:15:56 2014 DEBAS
-// Last update Mon Feb 24 17:43:17 2014 Etienne
+// Last update Mon Feb 24 19:03:24 2014 jonathan.collinet
 */
 
 #include <sys/types.h>
@@ -33,7 +33,7 @@ IOperand		*OperandFactory::createInt8(const std::string &value) const {
 
   ss << value;
   ss >> nbr;
-  return (new Operand<int16_t>(Int16, nbr, 0));
+  return (new Operand<int8_t>(Int8, nbr, 0));
 }
 
 IOperand		*OperandFactory::createInt16(const std::string &value) const {
