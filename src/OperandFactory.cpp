@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Sat Feb 15 20:15:56 2014 DEBAS
-// Last update Mon Feb 24 19:03:24 2014 jonathan.collinet
+// Last update Tue Feb 25 23:06:20 2014 Etienne
 */
 
 #include <sys/types.h>
@@ -33,7 +33,7 @@ IOperand		*OperandFactory::createInt8(const std::string &value) const {
 
   ss << value;
   ss >> nbr;
-  return (new Operand<int8_t>(Int8, nbr, 0));
+  return (new Operand<int8_t>(Int8, nbr));
 }
 
 IOperand		*OperandFactory::createInt16(const std::string &value) const {
@@ -42,7 +42,7 @@ IOperand		*OperandFactory::createInt16(const std::string &value) const {
 
   ss << value;
   ss >> nbr;
-  return (new Operand<int16_t>(Int16, nbr, 0));
+  return (new Operand<int16_t>(Int16, nbr));
 }
 
 IOperand		*OperandFactory::createInt32(const std::string &value) const {
@@ -51,43 +51,23 @@ IOperand		*OperandFactory::createInt32(const std::string &value) const {
 
   ss << value;
   ss >> nbr;
-  return (new Operand<int32_t>(Int32, nbr, 0));
+  return (new Operand<int32_t>(Int32, nbr));
 }
 
 IOperand		*OperandFactory::createFloat(const std::string &value) const {
   float			nbr;
   std::stringstream	ss;
-  int			precision;
-  size_t		pointPos;
 
-  pointPos = value.find_first_of('.');
-  if (pointPos != std::string::npos) {
-    std::string tmp = value.substr(value.find_first_of('.'), value.size());
-    precision = tmp.size() - 1;
-  }
-  else {
-    precision = 0;
-  }
   ss << value;
   ss >> nbr;
-  return (new Operand<float>(Float, nbr, precision));
+  return (new Operand<float>(Float, nbr));
 }
 
 IOperand		*OperandFactory::createDouble(const std::string &value) const {
   double		nbr;
   std::stringstream	ss;
-  int			precision;
-  size_t		pointPos;
 
-  pointPos = value.find_first_of('.');
-  if (pointPos != std::string::npos) {
-    std::string tmp = value.substr(value.find_first_of('.'), value.size());
-    precision = tmp.size() - 1;
-  }
-  else {
-    precision = 0;
-  }
   ss << value;
   ss >> nbr;
-  return (new Operand<double>(Double, nbr, precision));
+  return (new Operand<double>(Double, nbr));
 }

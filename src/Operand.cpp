@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Tue Feb 25 22:14:27 2014 Etienne
+// Last update Tue Feb 25 23:06:29 2014 Etienne
 //
 
 #include <sys/types.h>
@@ -16,23 +16,23 @@
 #include "Exception.hpp"
 
 template<typename Type>
-Operand<Type>::Operand(eOperandType enum_type, Type value, int precision) {
+Operand<Type>::Operand(eOperandType enum_type, Type value) {
   std::stringstream	ss;
 
   _enum_type = enum_type;
   _value = value;
-  ss << std::fixed << std::setprecision(precision) << value;
+  ss << value;
   ss >> _str;
   factory = new OperandFactory();
 }
 
 template<>
-Operand<int8_t>::Operand(eOperandType enum_type, int8_t value, int precision) {
+Operand<int8_t>::Operand(eOperandType enum_type, int8_t value) {
   std::stringstream	ss;
 
   _enum_type = enum_type;
   _value = value;
-  ss << std::fixed << std::setprecision(precision) << static_cast<int16_t>(_value);
+  ss << static_cast<int16_t>(_value);
   ss >> _str;
   factory = new OperandFactory();
 }
