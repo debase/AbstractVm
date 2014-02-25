@@ -5,11 +5,10 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Thu Feb 13 21:05:36 2014 DEBAS
-// Last update Sun Feb 23 19:53:01 2014 Etienne
+// Last update Tue Feb 25 20:43:28 2014 Etienne
 */
 
 #include <iostream>
-#include <sys/types.h>
 #include "Memory.hpp"
 
 Memory::Memory() {
@@ -17,7 +16,6 @@ Memory::Memory() {
 }
 
 void			Memory::push(IOperand *op) {
-  // throw exception si stack empty
   _stack.push_front(op);
 }
 
@@ -26,7 +24,6 @@ IOperand		*Memory::getFirst() {
 }
 
 void			Memory::pop() {
-  // throw exception si stack empty
   _stack.pop_front();
 }
 
