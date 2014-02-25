@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 01:05:27 2014 Etienne
-// Last update Mon Feb 24 18:42:04 2014 Etienne
+// Last update Tue Feb 25 23:18:05 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -41,11 +41,6 @@ void                    Parser::addInstruction(const std::string &instruction,
   Instruction           *new_instru = NULL;
   eOperandType          type;
 
-  // std::cout << "-------------------------" << std::endl;
-  // std::cout << "instr = " + instruction << std::endl;
-  // std::cout << "type = " + operande << std::endl;
-  // std::cout << "value = " + value << std::endl;
-  // std::cout << "-------------------------" << std::endl;
   type = _lexer_type[operande];
   if (value != "")
     new_ioperand = factory.createOperand(type, value);
@@ -168,8 +163,6 @@ bool                    Parser::isValidNumber(const std::string &val, const eOpe
       }
     else if (std::isdigit(number[j]) == false)
       return false;
-  if (type >= Float && dot == false)
-    throw BadFloatNumber(val, _line_number);
   return true;
 }
 
