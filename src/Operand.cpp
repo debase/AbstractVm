@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Tue Feb 25 21:47:10 2014 Etienne
+// Last update Tue Feb 25 22:14:27 2014 Etienne
 //
 
 #include <sys/types.h>
@@ -64,7 +64,6 @@ IOperand	*Operand<Type>::operator+(const IOperand &rhs) const {
   Type		minVal = std::numeric_limits<Type>::min();
   Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
 
-  std::cout << "value : " << static_cast<int16_t>(this->_value) << " + " << static_cast<int16_t>(rhs_value) << std::endl;
   if ((rhs_value > 0) && (this->_value > maxVal - rhs_value)) {
     throw Overflow(_str + " + " + Operand<Type>::valueToString(rhs_value), 0);
   }
@@ -164,6 +163,16 @@ std::string		Operand<Type>::valueToString(Type value) {
   return (ret);
 }
 
+template<>
+std::string		Operand<int8_t>::valueToString(int8_t value) {
+  std::stringstream	ss;
+  std::string		ret;
+
+  ss << static_cast<int16_t>(value);
+  ss >> ret;
+  return (ret);
+}
+
 template<typename Type>
 Type		Operand<Type>::stringToValue(std::string value) {
   std::stringstream	ss;
@@ -172,6 +181,16 @@ Type		Operand<Type>::stringToValue(std::string value) {
   ss << value;
   ss >> ret;
   return (ret);
+}
+
+template<>
+int8_t		Operand<int8_t>::stringToValue(std::string value) {
+  std::stringstream	ss;
+  int16_t		ret;
+
+  ss << value;
+  ss >> ret;
+  return (static_cast<int8_t>(ret));
 }
 
 template class Operand<int8_t>;
