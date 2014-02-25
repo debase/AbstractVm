@@ -5,14 +5,14 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Thu Feb 13 21:05:36 2014 DEBAS
-// Last update Tue Feb 25 20:43:28 2014 Etienne
+// Last update Tue Feb 25 21:15:07 2014 jonathan.collinet
 */
 
 #include <iostream>
+#include <iomanip>
 #include "Memory.hpp"
 
 Memory::Memory() {
-
 }
 
 void			Memory::push(IOperand *op) {
@@ -27,13 +27,11 @@ void			Memory::pop() {
   _stack.pop_front();
 }
 
-
-
 void			Memory::dump() {
   if (_stack.empty() == false) {
     std::list<IOperand *>::iterator it;
     for (it = _stack.begin() ; it != _stack.end(); it++) {
-      std::cout << (*it)->toString() << std::endl;
+      std::cout << std::setprecision(20) << (*it)->toString() << std::endl;
     }
   }
 }
