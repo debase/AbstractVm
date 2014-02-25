@@ -5,12 +5,13 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Mon Feb 24 00:58:50 2014 Etienne
+// Last update Tue Feb 25 21:47:10 2014 Etienne
 //
 
 #include <sys/types.h>
 #include <limits>
 #include <cmath>
+#include <limits.h>
 #include "Operand.hpp"
 #include "Exception.hpp"
 
@@ -22,7 +23,17 @@ Operand<Type>::Operand(eOperandType enum_type, Type value, int precision) {
   _value = value;
   ss << std::fixed << std::setprecision(precision) << value;
   ss >> _str;
-  // std::cout << "Operand :string = " + _str << std::endl;
+  factory = new OperandFactory();
+}
+
+template<>
+Operand<int8_t>::Operand(eOperandType enum_type, int8_t value, int precision) {
+  std::stringstream	ss;
+
+  _enum_type = enum_type;
+  _value = value;
+  ss << std::fixed << std::setprecision(precision) << static_cast<int16_t>(_value);
+  ss >> _str;
   factory = new OperandFactory();
 }
 
@@ -49,9 +60,19 @@ IOperand	*Operand<Type>::operator+(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
-  Type          rhs_value = Operand::stringToValue(rhs.toString());
+  Type		maxVal = std::numeric_limits<Type>::max();
+  Type		minVal = std::numeric_limits<Type>::min();
+  Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
+
+  std::cout << "value : " << static_cast<int16_t>(this->_value) << " + " << static_cast<int16_t>(rhs_value) << std::endl;
+  if ((rhs_value > 0) && (this->_value > maxVal - rhs_value)) {
+    throw Overflow(_str + " + " + Operand<Type>::valueToString(rhs_value), 0);
+  }
+  if ((rhs_value < 0) && (this->_value < minVal - rhs_value)) {
+    throw Underflow(_str + " + " + Operand<Type>::valueToString(rhs_value), 0);
+  }
   Type          res = this->_value + rhs_value;
-  return (factory->createOperand(getType(), Operand::valueToString(res)));
+  return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }
 
 template<typename Type>
@@ -66,9 +87,9 @@ IOperand	*Operand<Type>::operator-(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
-  Type          rhs_value = Operand::stringToValue(rhs.toString());
+  Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
   Type          res = this->_value - rhs_value;
-  return (factory->createOperand(getType(), Operand::valueToString(res)));
+  return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }
 
 template<typename Type>
@@ -83,9 +104,9 @@ IOperand	*Operand<Type>::operator*(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
-  Type          rhs_value = Operand::stringToValue(rhs.toString());
+  Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
   Type          res = this->_value * rhs_value;
-  return (factory->createOperand(getType(), Operand::valueToString(res)));
+  return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }
 
 template<typename Type>
@@ -100,12 +121,12 @@ IOperand	*Operand<Type>::operator/(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
-  Type          rhs_value = Operand::stringToValue(rhs.toString());
+  Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
   if (rhs_value == 0.0) {
     throw DivZeroException();
   }
   Type          res = this->_value / rhs_value;
-  return (factory->createOperand(getType(), Operand::valueToString(res)));
+  return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }
 
 template<typename Type>
@@ -120,11 +141,11 @@ IOperand	*Operand<Type>::operator%(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
-  Type          rhs_value = Operand::stringToValue(rhs.toString());
+  Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
   if (rhs_value == 0.0) {
     throw ModZeroException();
   }
-  std::string	res = Operand::valueToString(fmod(_value, rhs_value));
+  std::string	res = Operand<Type>::valueToString(fmod(_value, rhs_value));
   return (factory->createOperand(getType(), res));
 }
 
