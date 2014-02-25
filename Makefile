@@ -5,7 +5,7 @@
 ## Login   <collin_b@epitech.net>
 ## 
 ## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
-## Last update Sun Feb 23 18:22:18 2014 Etienne
+## Last update Tue Feb 25 21:25:05 2014 jonathan.collinet
 ##
 
 SRC		=	main.cpp \
@@ -45,14 +45,13 @@ $(NAME):		$(OBJ)
 all:			$(NAME)
 
 clean:
-			@echo "C3PO says : Removing object ... my god i need an oil bath !"
+			@echo "C3PO says : Removing object ..."
 			@$(RM) $(OBJ)
 
 fclean:			clean
-			@echo "C3PO says : I Remove ${NAME}, need a new program for my little head !"
+			@echo "C3PO says : I remove ${NAME}"
 			@$(RM) $(NAME)
 
 re:			fclean all
 
 .PHONY:			all clean fclean re
-
