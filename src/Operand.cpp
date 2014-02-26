@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Wed Feb 26 13:38:48 2014 Etienne
+// Last update Wed Feb 26 13:52:56 2014 Etienne
 //
 
 #include <sys/types.h>
@@ -186,7 +186,10 @@ int8_t		Operand<int8_t>::stringToValue(const std::string &value) {
   ss >> ret;
   str = Operand<int8_t>::valueToString(ret);
   if (str != value) {
-    throw Overflow("Overflow / Underflow : on value " + value, 0);
+    if (value[0] == '-')
+      throw Underflow(value, 0);
+    else
+      throw Overflow(value, 0);
   }
   return (static_cast<int8_t>(ret));
 }

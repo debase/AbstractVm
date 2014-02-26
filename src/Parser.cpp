@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 01:05:27 2014 Etienne
-// Last update Tue Feb 25 23:18:05 2014 jonathan.collinet
+// Last update Wed Feb 26 13:59:35 2014 Etienne
 //
 
 #include "Parser.hpp"
@@ -141,13 +141,14 @@ std::string		Parser::getOperande()
 bool                    Parser::isValidNumber(const std::string &val, const eOperandType type)
 {
   int			i = 0;
-  bool			neg = false;
+  // bool			neg = false;
   bool                  dot = false;
   std::string		number;
 
-  for (i = 0 ; val[i] == '-' || val[i] == '+' ; i++)
-    if (val[i] == '-')
-      neg = !neg;
+  if (val[i] == '-')
+    {
+      i++;
+    }
   number = val.substr(i, val.size());
   if (number == "")
     throw NullValue(val, _line_number);
