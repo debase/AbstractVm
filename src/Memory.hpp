@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Thu Feb 13 20:38:17 2014 DEBAS
-// Last update Sun Feb 23 19:42:06 2014 Etienne
+// Last update Wed Feb 26 11:37:00 2014 Etienne
 */
 
 #ifndef MEMORY_H_
@@ -23,10 +23,10 @@ public:
   ~Memory() {}
 
   void		push(IOperand *toPush);
-  IOperand	*getFirst();
+  IOperand	*getFirst() const ;
   void		pop();
   void		dump();
-  size_t	stackSize();
+  size_t	stackSize() const ;
 private:
   std::list<IOperand *>		_stack;
 };

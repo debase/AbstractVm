@@ -15,8 +15,8 @@ public:
   int			getPrecision() const;
   std::string const	&toString() const;
   eOperandType		getType() const ;
-  static std::string	valueToString(Type value);
-  static Type		stringToValue(std::string value);
+  static std::string	valueToString(const Type value);
+  static Type		stringToValue(const std::string &value);
   IOperand		*operator+(const IOperand &rhs) const;
   IOperand		*operator-(const IOperand &rhs) const;
   IOperand		*operator*(const IOperand &rhs) const;

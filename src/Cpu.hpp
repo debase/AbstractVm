@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:05:48 2014 Etienne
-// Last update Mon Feb 24 18:36:32 2014 Etienne
+// Last update Wed Feb 26 11:25:46 2014 Etienne
 //
 
 #ifndef CPU_HH
@@ -20,24 +20,24 @@
 class		Cpu
 {
 public:
-  typedef void		(Cpu::*ptrf)(void);
+  typedef void		(Cpu::*ptrf)(void) const ;
 
   Cpu(Memory *);
   ~Cpu() {}
   void		execute(std::list<Instruction *> instruction);
-  void		mul();
-  void		add();
-  void		div();
-  void		sub();
-  void		mod();
-  void		pop();
-  void		push();
-  void		dump();
-  void		assert();
-  void		print();
+  void		mul() const ;
+  void		add() const ;
+  void		div() const ;
+  void		sub() const ;
+  void		mod() const ;
+  void		pop() const ;
+  void		push() const ;
+  void		dump() const ;
+  void		assert() const ;
+  void		print() const ;
 private:
   Memory	*_memmory;
-Instruction	*_instruction;
+  Instruction	*_instruction;
   std::map<std::string, ptrf>	_exec_instr;
 };
 #endif

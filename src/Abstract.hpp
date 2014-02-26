@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Sat Feb 15 22:09:47 2014 DEBAS
-// Last update Sun Feb 23 18:22:01 2014 Etienne
+// Last update Wed Feb 26 11:16:58 2014 Etienne
 */
 
 #ifndef ABSTRACT_HPP_
@@ -21,7 +21,7 @@ public:
   Abstract();
   ~Abstract();
 
-  void		execute(const char *);
+  void		execute(const char *) const;
 private:
   Parser	*parser;
   Memory	*memory;

@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 //
 // Started on  Wed Feb 12 16:30:04 2014 jonathan.collinet
-// Last update Mon Feb 24 18:34:34 2014 Etienne
+// Last update Wed Feb 26 11:17:20 2014 Etienne
 //
 
 #include "Exception.hpp"
@@ -23,7 +23,7 @@ Abstract::~Abstract() {
   delete this->cpu;
 }
 
-void		Abstract::execute(const char *file) {
+void		Abstract::execute(const char *file) const {
   std::list<Instruction *> instruction;
 
   try {

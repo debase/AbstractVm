@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Thu Feb 13 21:05:36 2014 DEBAS
-// Last update Tue Feb 25 21:15:07 2014 jonathan.collinet
+// Last update Wed Feb 26 11:37:14 2014 Etienne
 */
 
 #include <iostream>
@@ -19,7 +19,7 @@ void			Memory::push(IOperand *op) {
   _stack.push_front(op);
 }
 
-IOperand		*Memory::getFirst() {
+IOperand		*Memory::getFirst() const {
   return _stack.front();
 }
 
@@ -31,11 +31,11 @@ void			Memory::dump() {
   if (_stack.empty() == false) {
     std::list<IOperand *>::iterator it;
     for (it = _stack.begin() ; it != _stack.end(); it++) {
-      std::cout << std::setprecision(20) << (*it)->toString() << std::endl;
+      std::cout << (*it)->toString() << std::endl;
     }
   }
 }
 
-size_t			Memory::stackSize() {
+size_t			Memory::stackSize() const {
   return _stack.size();
 }

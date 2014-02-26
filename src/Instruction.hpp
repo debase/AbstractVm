@@ -5,7 +5,7 @@
 ** Login   <debas_e_elementary@epitech.net>
 **
 ** Started on  Thu Feb 13 23:06:50 2014 DEBAS
-// Last update Mon Feb 24 00:17:57 2014 Etienne
+// Last update Wed Feb 26 11:34:41 2014 Etienne
 */
 
 #ifndef INSTRUCTION_H_
@@ -17,9 +17,9 @@
 class Instruction{
 public:
   Instruction(IOperand *op, std::string instruction, int line);
-  IOperand	*getOperand();
-  std::string	&getInstruction();
-  int		getLine();
+  IOperand	*getOperand() const ;
+  std::string	getInstruction() const ;
+  int		getLine() const ;
 private:
   IOperand	*_op;
   std::string	_instruction;

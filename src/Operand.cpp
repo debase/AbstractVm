@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Tue Feb 25 23:06:29 2014 Etienne
+// Last update Wed Feb 26 13:38:48 2014 Etienne
 //
 
 #include <sys/types.h>
@@ -21,25 +21,13 @@ Operand<Type>::Operand(eOperandType enum_type, Type value) {
 
   _enum_type = enum_type;
   _value = value;
-  ss << value;
-  ss >> _str;
-  factory = new OperandFactory();
-}
-
-template<>
-Operand<int8_t>::Operand(eOperandType enum_type, int8_t value) {
-  std::stringstream	ss;
-
-  _enum_type = enum_type;
-  _value = value;
-  ss << static_cast<int16_t>(_value);
-  ss >> _str;
+  _str = Operand<Type>::valueToString(value);
   factory = new OperandFactory();
 }
 
 template<typename Type>
 int		Operand<Type>::getPrecision() const {
-  return static_cast<int>(_enum_type);
+  return _enum_type;
 }
 
 template<typename Type>
@@ -154,7 +142,7 @@ std::string const	&Operand<Type>::toString() const {
 }
 
 template<typename Type>
-std::string		Operand<Type>::valueToString(Type value) {
+std::string		Operand<Type>::valueToString(const Type value) {
   std::stringstream	ss;
   std::string		ret;
 
@@ -174,22 +162,32 @@ std::string		Operand<int8_t>::valueToString(int8_t value) {
 }
 
 template<typename Type>
-Type		Operand<Type>::stringToValue(std::string value) {
+Type		Operand<Type>::stringToValue(const std::string &value) {
   std::stringstream	ss;
   Type			ret;
+  std::string		str;
 
   ss << value;
   ss >> ret;
+  str = Operand<int8_t>::valueToString(ret);
+  if (str != value) {
+    throw Overflow("Overflow / Underflow : on value " + value, 0);
+  }
   return (ret);
 }
 
 template<>
-int8_t		Operand<int8_t>::stringToValue(std::string value) {
+int8_t		Operand<int8_t>::stringToValue(const std::string &value) {
   std::stringstream	ss;
   int16_t		ret;
+  std::string		str;
 
   ss << value;
   ss >> ret;
+  str = Operand<int8_t>::valueToString(ret);
+  if (str != value) {
+    throw Overflow("Overflow / Underflow : on value " + value, 0);
+  }
   return (static_cast<int8_t>(ret));
 }
 

@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:19:23 2014 Etienne
-// Last update Mon Feb 24 19:05:54 2014 Etienne
+// Last update Wed Feb 26 11:26:41 2014 Etienne
 //
 
 #include "Cpu.hpp"
@@ -26,7 +26,7 @@ Cpu::Cpu(Memory *memory) {
   _exec_instr["assert"] = &Cpu::assert;
 }
 
-void		Cpu::mul() {
+void		Cpu::mul() const {
   IOperand	*nb1;
   IOperand	*nb2;
 
@@ -43,7 +43,7 @@ void		Cpu::mul() {
   }
 }
 
-void		Cpu::add() {
+void		Cpu::add() const {
   IOperand	*nb1;
   IOperand	*nb2;
 
@@ -60,7 +60,7 @@ void		Cpu::add() {
   }
 }
 
-void		Cpu::div() {
+void		Cpu::div() const {
   IOperand	*nb1;
   IOperand	*nb2;
 
@@ -77,7 +77,7 @@ void		Cpu::div() {
   }
 }
 
-void		Cpu::sub() {
+void		Cpu::sub() const {
   IOperand	*nb1;
   IOperand	*nb2;
 
@@ -94,7 +94,7 @@ void		Cpu::sub() {
   }
 }
 
-void		Cpu::mod() {
+void		Cpu::mod() const {
   IOperand	*nb1;
   IOperand	*nb2;
 
@@ -111,7 +111,7 @@ void		Cpu::mod() {
   }
 }
 
-void		Cpu::pop() {
+void		Cpu::pop() const {
   if (_memmory->stackSize() > 0)
     _memmory->pop();
   else {
@@ -119,17 +119,17 @@ void		Cpu::pop() {
   }
 }
 
-void		Cpu::push() {
+void		Cpu::push() const {
   IOperand	*topush = _instruction->getOperand();
 
   _memmory->push(topush);
 }
 
-void		Cpu::dump() {
+void		Cpu::dump() const {
   _memmory->dump();
 }
 
-void		Cpu::assert() {
+void		Cpu::assert() const {
   IOperand	*value;
   IOperand	*onTop;
 
@@ -145,7 +145,7 @@ void		Cpu::assert() {
     }
 }
 
-void		Cpu::print() {
+void		Cpu::print() const {
   IOperand	*value;
 
   if (_memmory->stackSize() == 0) {
