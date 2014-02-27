@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Thu Feb 27 12:58:54 2014 Etienne
+// Last update Thu Feb 27 15:18:15 2014 jonathan.collinet
 //
 
 #include <sys/types.h>
@@ -74,7 +74,16 @@ IOperand	*Operand<Type>::operator-(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
+  Type		maxVal = std::numeric_limits<Type>::max();
+  Type		minVal = std::numeric_limits<Type>::min();
   Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
+
+  if ((rhs_value > 0) && (this->_value < maxVal - rhs_value)) {
+    throw Overflow(_str + " - " + Operand<Type>::valueToString(rhs_value), 0);
+  }
+  if ((rhs_value < 0) && (this->_value > minVal - rhs_value)) {
+    throw Underflow(_str + " - " + Operand<Type>::valueToString(rhs_value), 0);
+  }
   Type          res = this->_value - rhs_value;
   return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }

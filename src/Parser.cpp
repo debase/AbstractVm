@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 01:05:27 2014 Etienne
-// Last update Wed Feb 26 13:59:35 2014 Etienne
+// Last update Thu Feb 27 15:16:18 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
@@ -141,7 +141,6 @@ std::string		Parser::getOperande()
 bool                    Parser::isValidNumber(const std::string &val, const eOperandType type)
 {
   int			i = 0;
-  // bool			neg = false;
   bool                  dot = false;
   std::string		number;
 
