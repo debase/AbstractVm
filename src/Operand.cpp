@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Thu Feb 27 16:54:42 2014 jonathan.collinet
+// Last update Thu Feb 27 18:04:49 2014 Etienne
 //
 
 #include <sys/types.h>
@@ -100,8 +100,20 @@ IOperand	*Operand<Type>::operator*(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
+  bool		isNeg;
   Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
+  if ((this->_value > 0 && rhs_value < 0) || (rhs_value > 0 && this->_value < 0))
+    isNeg = true;
+  else
+    isNeg = false;
   Type          res = this->_value * rhs_value;
+  if ((res / rhs_value) != this->_value)
+    {
+      if (isNeg == false)
+	throw Overflow(_str + " * " + Operand<Type>::valueToString(rhs_value), 0);
+      else
+	throw Underflow(_str + " * " + Operand<Type>::valueToString(rhs_value), 0);
+    }
   return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }
 
