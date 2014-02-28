@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Fri Feb 28 10:13:06 2014 jonathan.collinet
+// Last update Fri Feb 28 10:44:50 2014 jonathan.collinet
 //
 
 #include <sys/types.h>
@@ -23,11 +23,15 @@ std::string	eraseUselessNumber(const std::string &s)
 
   if ((pos = s.find(".")) != std::string::npos)
     {
-      inc = pos;
-      while (ret[++inc])
+      inc = ret.size();
+      while (ret[--inc])
 	if (ret[inc] != '0')
-	  return (ret);
-      ret = ret.erase(pos, ret.size());
+	  break;
+      if (ret[inc] == '.')
+	ret = ret.erase(inc, ret.size());
+      else
+	ret = ret.erase(inc + 1, ret.size());
+	
       return (ret);
     }
   return (ret);
@@ -147,11 +151,20 @@ IOperand	*Operand<Type>::operator/(const IOperand &rhs) const {
     delete tmp;
     return res;
   }
+  bool		isNeg;
   Type          rhs_value = Operand<Type>::stringToValue(rhs.toString());
-  if (rhs_value == 0.0) {
-    throw DivZeroException();
-  }
+  if ((this->_value > 0 && rhs_value < 0) || (rhs_value > 0 && this->_value < 0))
+    isNeg = true;
+  else
+    isNeg = false;
   Type          res = this->_value / rhs_value;
+  if ((res * rhs_value) != this->_value)
+    {
+      if (isNeg == false)
+	throw Overflow(_str + " / " + Operand<Type>::valueToString(rhs_value), 0);
+      else
+	throw Underflow(_str + " / " + Operand<Type>::valueToString(rhs_value), 0);
+    }
   return (factory->createOperand(getType(), Operand<Type>::valueToString(res)));
 }
 
