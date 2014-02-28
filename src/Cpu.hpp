@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:05:48 2014 Etienne
-// Last update Fri Feb 28 15:52:25 2014 jonathan.collinet
+// Last update Fri Feb 28 17:03:42 2014 jonathan.collinet
 //
 
 #ifndef CPU_HH
@@ -24,7 +24,7 @@ public:
 
   Cpu(Memory *);
   ~Cpu() {}
-  void		execute(std::list<Instruction *>, bool);
+  void		execute(std::list<Instruction *>);
   void		mul() const ;
   void		add() const ;
   void		div() const ;

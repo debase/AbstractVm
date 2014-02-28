@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Fri Feb 28 10:44:50 2014 jonathan.collinet
+// Last update Fri Feb 28 17:05:25 2014 jonathan.collinet
 //
 
 #include <sys/types.h>
@@ -27,12 +27,7 @@ std::string	eraseUselessNumber(const std::string &s)
       while (ret[--inc])
 	if (ret[inc] != '0')
 	  break;
-      if (ret[inc] == '.')
-	ret = ret.erase(inc, ret.size());
-      else
-	ret = ret.erase(inc + 1, ret.size());
-	
-      return (ret);
+      return ((ret[inc] == '.') ? ret.erase(inc, ret.size()) : ret.erase(inc + 1, ret.size()));
     }
   return (ret);
 }

@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 23:57:05 2014 Etienne
-// Last update Fri Feb 28 15:49:25 2014 jonathan.collinet
+// Last update Fri Feb 28 17:03:59 2014 jonathan.collinet
 //
 
 #ifndef PARSER_HH
@@ -42,7 +42,6 @@ typedef enum	Lexer
 
   OperandFactory		factory;
 
-  bool				_is_in;
   int				_line_number;
   std::vector<std::string>	argument;
   std::map<std::string, ELexer> _lexer;
@@ -52,7 +51,6 @@ typedef enum	Lexer
 
 public:
   Parser();
-  bool				getIsIn();
   bool				isEndIn(const std::string &line) const;
   bool				isCommentLine(const std::string &line) const;
   std::list<Instruction *>	execute(const char *file);
