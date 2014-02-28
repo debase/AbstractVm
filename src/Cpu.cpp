@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 18:19:23 2014 Etienne
-// Last update Wed Feb 26 11:26:41 2014 Etienne
+// Last update Fri Feb 28 15:52:42 2014 jonathan.collinet
 //
 
 #include "Cpu.hpp"
@@ -165,7 +165,7 @@ void		Cpu::print() const {
   }
 }
 
-void		Cpu::execute(std::list<Instruction *> instruction) {
+void		Cpu::execute(std::list<Instruction *> instruction, bool is_in) {
   std::list<Instruction *>::iterator	it;
   ptrf					ptr;
 
@@ -182,5 +182,6 @@ void		Cpu::execute(std::list<Instruction *> instruction) {
       return ;
     }
   }
-  throw ExitNotFoundException();
+  if (!is_in)
+    throw ExitNotFoundException();
 }

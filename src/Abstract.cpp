@@ -5,7 +5,7 @@
 // Login   <collin_b@epitech.net>
 //
 // Started on  Wed Feb 12 16:30:04 2014 jonathan.collinet
-// Last update Wed Feb 26 11:17:20 2014 Etienne
+// Last update Fri Feb 28 15:55:02 2014 jonathan.collinet
 //
 
 #include "Exception.hpp"
@@ -34,7 +34,7 @@ void		Abstract::execute(const char *file) const {
     return ;
   }
   try {
-    cpu->execute(instruction);
+    cpu->execute(instruction, parser->getIsIn());
   }
   catch (Exception &e) {
     std::cerr << "Error : " << e.what() << std::endl;

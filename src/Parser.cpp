@@ -5,13 +5,14 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sun Feb 23 01:05:27 2014 Etienne
-// Last update Thu Feb 27 15:16:18 2014 jonathan.collinet
+// Last update Fri Feb 28 15:50:23 2014 jonathan.collinet
 //
 
 #include "Parser.hpp"
 
 Parser::Parser()
 {
+  _is_in = false;
   _line_number = 0;
   _lexer["exit"] = EXIT_PROG;
   _lexer["pop"] = INSTR;
@@ -31,6 +32,11 @@ Parser::Parser()
   _lexer_type["float"] = Float;
   _lexer_type["double"] = Double;
 
+}
+
+bool			Parser::getIsIn()
+{
+  return (_is_in);
 }
 
 void                    Parser::addInstruction(const std::string &instruction,
@@ -220,11 +226,15 @@ std::list<Instruction *>	Parser::execute(const char *file)
       std::vector<std::string>::iterator it;
       std::vector<std::string>	vec;
 
+      _is_in = true;
       while (1)
 	{
 	  getline(std::cin, cur_line, '\n');
 	  if (isEndIn(cur_line) == true)
-	    break;
+	    {
+	      vec.push_back(cur_line);
+	      break;
+	    }
 	  vec.push_back(cur_line);
 	}
       for (it = vec.begin() ; it != vec.end() ; it++)
