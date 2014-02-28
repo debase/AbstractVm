@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Thu Feb 27 18:04:49 2014 Etienne
+// Last update Fri Feb 28 10:13:06 2014 jonathan.collinet
 //
 
 #include <sys/types.h>
@@ -14,6 +14,24 @@
 #include <limits.h>
 #include "Operand.hpp"
 #include "Exception.hpp"
+
+std::string	eraseUselessNumber(const std::string &s)
+{
+  size_t	pos = 0;
+  int		inc = 0;
+  std::string	ret = s;
+
+  if ((pos = s.find(".")) != std::string::npos)
+    {
+      inc = pos;
+      while (ret[++inc])
+	if (ret[inc] != '0')
+	  return (ret);
+      ret = ret.erase(pos, ret.size());
+      return (ret);
+    }
+  return (ret);
+}
 
 template<typename Type>
 Operand<Type>::Operand(eOperandType enum_type, Type value) {
@@ -167,7 +185,7 @@ std::string		Operand<Type>::valueToString(const Type value) {
   std::stringstream	ss;
   std::string		ret;
 
-  ss << value;
+  ss << std::fixed << value;
   ss >> ret;
   return (ret);
 }
@@ -187,11 +205,14 @@ Type		Operand<Type>::stringToValue(const std::string &value) {
   std::stringstream	ss;
   Type			ret;
   std::string		str;
+  std::string		cmp;
 
   ss << value;
   ss >> ret;
+  cmp = eraseUselessNumber(value);
   str = Operand<Type>::valueToString(ret);
-  if (str != value) {
+  str = eraseUselessNumber(str);
+  if (str != cmp) {
     if (value[0] == '-')
       throw Underflow(value, 0);
     else
