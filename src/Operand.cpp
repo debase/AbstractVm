@@ -5,7 +5,7 @@
 // Login   <debas_e@epitech.net>
 //
 // Started on  Sat Feb 22 16:48:07 2014 Etienne
-// Last update Fri Feb 28 10:44:50 2014 jonathan.collinet
+// Last update Sat Mar  1 01:05:51 2014 Etienne
 //
 
 #include <sys/types.h>
@@ -31,7 +31,6 @@ std::string	eraseUselessNumber(const std::string &s)
 	ret = ret.erase(inc, ret.size());
       else
 	ret = ret.erase(inc + 1, ret.size());
-	
       return (ret);
     }
   return (ret);
@@ -157,8 +156,9 @@ IOperand	*Operand<Type>::operator/(const IOperand &rhs) const {
     isNeg = true;
   else
     isNeg = false;
-  Type          res = this->_value / rhs_value;
-  if ((res * rhs_value) != this->_value)
+  Type		res = this->_value / rhs_value;
+  IOperand	*reste = *this % rhs;
+  if (((res * rhs_value) + Operand<Type>::stringToValue(reste->toString())) != this->_value)
     {
       if (isNeg == false)
 	throw Overflow(_str + " / " + Operand<Type>::valueToString(rhs_value), 0);
@@ -198,7 +198,7 @@ std::string		Operand<Type>::valueToString(const Type value) {
   std::stringstream	ss;
   std::string		ret;
 
-  ss << std::fixed << value;
+  ss << value;
   ss >> ret;
   return (ret);
 }
@@ -225,6 +225,7 @@ Type		Operand<Type>::stringToValue(const std::string &value) {
   cmp = eraseUselessNumber(value);
   str = Operand<Type>::valueToString(ret);
   str = eraseUselessNumber(str);
+  // std::cout << str + " -- " + cmp << std::endl;
   if (str != cmp) {
     if (value[0] == '-')
       throw Underflow(value, 0);
