@@ -5,7 +5,7 @@
 ## Login   <collin_b@epitech.net>
 ## 
 ## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
-## Last update Tue Feb 25 21:25:05 2014 jonathan.collinet
+## Last update Fri Feb 28 17:09:02 2014 jonathan.collinet
 ##
 
 SRC		=	main.cpp \
@@ -36,7 +36,7 @@ dummy		:=	$(shell test -d $(SRCDIR) || mkdir -p $(SRCDIR))
 
 $(OBJDIR)%.o:		$(patsubst %.cpp,${SRCDIR}%.cpp, %.cpp)
 			@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-			@echo "C3PO says : Compiling $< --{ $(CFLAGS) }--"
+			@echo "Compiling $< --{ $(CFLAGS) }--"
 			@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJ)
@@ -45,11 +45,11 @@ $(NAME):		$(OBJ)
 all:			$(NAME)
 
 clean:
-			@echo "C3PO says : Removing object ..."
+			@echo "Removing object ..."
 			@$(RM) $(OBJ)
 
 fclean:			clean
-			@echo "C3PO says : I remove ${NAME}"
+			@echo "Remove ${NAME}"
 			@$(RM) $(NAME)
 
 re:			fclean all
