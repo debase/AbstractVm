@@ -5,7 +5,7 @@
 ## Login   <collin_b@epitech.net>
 ## 
 ## Started on  Thu Feb 13 13:32:41 2014 jonathan.collinet
-## Last update Fri Feb 28 17:09:02 2014 jonathan.collinet
+## Last update Sun Mar  2 22:43:46 2014 Etienne
 ##
 
 SRC		=	main.cpp \
@@ -27,7 +27,7 @@ NAME		=	avm
 OBJDIR		=	obj/
 SRCDIR		=	src/
 
-CFLAGS		+=	-g -Wall -Wextra
+CFLAGS		+=	-Wall -Wextra
 
 OBJ		=	$(patsubst %.cpp,${OBJDIR}%.o, $(SRC))
 
