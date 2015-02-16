@@ -25,7 +25,7 @@ exit<br/>
 42.42<br/>
 3341.25<br/>
 
---- From a standard input ---
+--- From the standard input ---
 
 >&gt;./avm<br/>
 pop<br/>
