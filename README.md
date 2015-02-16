@@ -2,6 +2,8 @@
 
 AbstractVM est une machine a pile capable de calculer des expressions arithmetiques simples. 
 
+--- From a file ---
+
 &gt;cat sample.avm<br/>
 ; -------------<br/>
 ; sample.avm -<br/>
@@ -22,6 +24,8 @@ exit<br/>
 42<br/>
 42.42<br/>
 3341.25<br/>
+
+--- From a standard input ---
 
 &gt;./avm<br/>
 pop<br/>
